@@ -33,6 +33,13 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
 
     static {
         allowList.add("/login");
+        allowList.add("css/");
+        allowList.add("js/");
+        allowList.add("fonts/");
+        allowList.add("login");
+        allowList.add("error");
+        allowList.add("register");
+        allowList.add("passwordError");
     }
 
     @Override//在一个请求进入Controller层方法执行前执行这个方法
@@ -46,17 +53,26 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
         // 相对路径
         String subUrl = url.substring(ctxPath.length() + 1);
 
+        log.info("对 请求路径： " + url + " 进行匹配，是否拦截");
+
+        for (String s : allowList) {
+            if (subUrl.startsWith(s)) {
+                log.info("因为 " + subUrl + "包含 " + s + "放行");
+                return true;
+            }
+        }
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
+            log.info("用户为空，重定向到登录页面");
             response.sendRedirect("/login");
             return false;
         }
 
         HashMap map = cache.getResourceByUserId(user.getUserId());
         Boolean ifPermit = hasPermission(subUrl, (List<Resource>) map.get("resourceList"));
-
         return ifPermit;
 
     }
