@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>用户信息列表</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+    <script src="/js/jquery-3.4.1.js"></script>
+</head>
+
+<script>
+    var doAjax = function () {
+        $.get('/user/listUser', {}).done(function (res) {
+                $("#tableBody>tr").remove();
+                for (var i = 0 ; i < res.total;i++) {
+                    var uuser = res.data[i];
+                    $("#tableBody").append(
+                        " <tr>\n" +
+                        " <td>" + uuser.id + "</td>\n" +
+                        " <td>" + uuser.name + "</td>\n" +
+                        " <td>" + uuser.email + "</td>\n" +
+                        " <td>" + uuser.phone + "</td>\n" +
+                        " <td>" + uuser.messageNum + "</td>\n" +
+                        " </tr>");
+
+                }
+                console.log(res);
+            }
+        );
+
+    };
+    $(document).ready(function () {
+        doAjax();
+    });
+    $(document).ready(function(){
+        $("#userListHead").addClass("active");
+    })
+</script>
+<body>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div th:insert="NavBar::navbar"></div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>邮箱</th>
+                    <th>电话</th>
+                    <th>消息数量</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

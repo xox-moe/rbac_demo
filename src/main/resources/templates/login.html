@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+
+            <div th:insert="NavBar::navbar"></div>
+
+
+            <form th:action="@{/login}" method="post" class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="inputUserName">用户名</label>
+                    <div class="controls">
+                        <input id="inputUserName" name="userName" type="text"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputPassword">密码</label>
+                    <div class="controls">
+                        <input id="inputPassword" name="password" type="password"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+<!--                        <label class="checkbox"><input type="checkbox" /> Remember me</label>-->
+                        <button type="submit" class="btn">登陆</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

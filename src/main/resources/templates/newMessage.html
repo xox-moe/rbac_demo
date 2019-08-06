@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>新增留言</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+    <script src="/js/jquery-3.4.1.js"></script>
+</head>
+
+<style>
+    #userInfo li p{
+        display: inline;
+    }
+</style>
+
+<script>
+    $(document).ready(function(){
+        $("#newMessageHead").addClass("active");
+    })
+</script>
+
+<body>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div th:insert="NavBar::navbar"></div>
+
+            <div th:if="${edit == false || edit == null}">
+                <form th:action="@{/message/addMessage}" method="post">
+                    <fieldset>
+                        <legend>新增留言</legend>
+                        <label>标题</label>
+                        <input type="text" name="title" placeholder="标题" />
+
+
+                    </fieldset>
+                    <fieldset>
+
+                        <label>留言</label>
+                        <input type="text" name="detail" placeholder="留言" />
+
+                    </fieldset>
+
+                    <button type="submit" class="btn">提交</button>
+                </form>
+
+            </div>
+
+            <div th:if="${edit == true}">
+                <form th:action="@{/message/editMessage}" method="post">
+                    <input type="text" name="id" hidden="hidden" th:value="${message.id}">
+                    <fieldset>
+                        <legend>修改留言</legend>
+                        <label>标题</label>
+                        <input type="text" name="title" placeholder="标题" th:value="${message.title}" />
+                    </fieldset>
+                    <fieldset>
+<!--                        <label>留言</label>-->
+<!--                        <input type="text" name="detail" placeholder="留言" th:value="${message.detail}" />-->
+                        <div class="md-form">
+                            <label for="form7">留言详情</label>
+                            <textarea id="form7"  name="detail" class="md-textarea form-control" rows="3" th:text="${message.detail}" th:value="${message.detail}"></textarea>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="btn">提交</button>
+                </form>
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

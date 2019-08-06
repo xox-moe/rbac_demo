@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>我的信息</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+    <script src="/js/jquery-3.4.1.js"></script>
+</head>
+
+<style>
+    #userInfo li p{
+        display: inline;
+    }
+
+
+</style>
+
+<script>
+    $(document).ready(function(){
+        $("#myInfoHead").addClass("active");
+    })
+</script>
+
+<body>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div th:insert="NavBar::navbar"></div>
+
+
+            <div th:if="${errorInfo != null}">
+                <h2 th:value="${errorInfo}" th:text="${errorInfo}"></h2>
+            </div>
+
+            <form th:action="@{/user/editMyInfo}" method="post">
+                <input type="text" name="id" hidden="hidden" th:value="${user.id}">
+                <fieldset>
+                    <legend>修改留言</legend>
+                    <label>     用户名  </label>
+                    <input type="text" name="name" placeholder="用户名" th:value="${user.name}" />
+                </fieldset>
+                <fieldset>
+                    <label>  邮箱    </label>
+                    <input type="text" name="email" placeholder="邮箱" th:value="${user.email}" />
+                </fieldset>
+                <fieldset>
+                    <label>  电话    </label>
+                    <input type="text" name="phone" placeholder="电话" th:value="${user.phone}" />
+                </fieldset>
+                <fieldset>
+                    <label>  旧密码  </label>
+                    <input type="text" name="oldPassword" placeholder="旧密码"  />
+                </fieldset>
+                <fieldset>
+                    <label>  新密码  </label>
+                    <input type="text" name="newPassword" placeholder="新密码"  />
+                </fieldset>
+                <fieldset>
+                    <label>重复新密码</label>
+                    <input type="text" name="newPasswords" placeholder="重复新密码" />
+                </fieldset>
+                <button type="submit" class="btn">提交</button>
+            </form>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

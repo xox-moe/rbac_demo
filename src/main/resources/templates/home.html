@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+    <script src="/js/jquery-3.4.1.js"></script>
+</head>
+
+<!--<script>-->
+<!--    var page = 1;-->
+<!--    var limit = 5;-->
+<!--    var userName = "";-->
+<!--    var doAjax = function (page, limit, userName) {-->
+<!--        var MsgList = $.get('/message/listMessageByUserName', {-->
+<!--            page: page,-->
+<!--            limit: limit,-->
+<!--            userName: userName-->
+<!--        }).done(function (res) {-->
+<!--                console.log("page: " + page + "  limit:" + limit);-->
+<!--                $("#tableBody>tr").remove();-->
+<!--                for (var i = 0; i < 5; i++) {-->
+<!--                    var msg = res.data[i];-->
+<!--                    if (msg != null) {-->
+<!--                        $("#tableBody").append(-->
+<!--                            " <tr>\n" +-->
+<!--                            " <td>" + msg.id + "</td>\n" +-->
+<!--                            " <td>" + msg.title + "</td>\n" +-->
+<!--                            " <td>" + msg.detail + "</td>\n" +-->
+<!--                            " <td>" + msg.createTime + "</td>\n" +-->
+<!--                            " <td>" + msg.editTime + "</td>\n" +-->
+<!--                            " <td>" + msg.userId + "</td>\n" +-->
+<!--                            " </tr>");-->
+<!--                    }-->
+<!--                }-->
+
+<!--                console.log(res);-->
+
+<!--                if (page <= 1) {-->
+<!--                    $("#beforePage>button").addClass("hidden");-->
+<!--                } else {-->
+<!--                    $("#beforePage>button").removeClass("hidden")-->
+<!--                }-->
+
+<!--                console.log("当前: " + page + " 总页数:" + res.total / limit)-->
+<!--                if (page > (res.total / limit)) {-->
+<!--                    console.log("x需要进行隐藏啦")-->
+<!--                    $("#nextPage>button").addClass("hidden");-->
+<!--                } else {-->
+<!--                    $("#nextPage>button").removeClass("hidden")-->
+<!--                }-->
+<!--                $("#pageNum").html("<p>第" + page + "页</p>");-->
+
+<!--            }-->
+<!--        );-->
+
+<!--    };-->
+<!--    $(document).ready(function () {-->
+<!--        doAjax(page, limit, "");-->
+<!--        console.log(userName);-->
+<!--        var beforePage = $("#beforePage");-->
+<!--        beforePage.click(function () {-->
+<!--            if (page > 1)-->
+<!--                page = page - 1;-->
+<!--            doAjax(page,limit,userName)-->
+<!--        });-->
+<!--        var nextPage = $("#nextPage");-->
+<!--        nextPage.click(function () {-->
+<!--            page = page + 1;-->
+<!--            doAjax(page,limit,userName)-->
+<!--        });-->
+
+<!--        var searchAction = $("#searchMessage");-->
+<!--        searchAction.click(function () {-->
+<!--            userName = $("#searchMessageUserName").val();-->
+<!--            doAjax(page, limit, userName);-->
+<!--        });-->
+
+<!--    });-->
+<!--</script>-->
+
+<script>
+    $(document).ready(function(){
+        $("#homeHead").addClass("active")
+    })
+</script>
+
+<body>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div th:insert="NavBar::navbar"></div>
+
+
+            <p>
+
+            <h1>软件功能</h1>
+
+            <ul>
+                <li> 1. 用户信息查看，包括所有用户的信息
+
+                    ​ 无分页，无法修改信息，可以看到用户留言的条数
+                </li>
+                <li>
+                    2. 消息列表查看，可以删除，修改信息
+
+                    ​ 可以修改任何人的留言，删除任何人的留言，自动记录修改时间
+                </li>
+                <li>3. 消息新增
+
+                    ​ 新增消息，自动记录创建时间
+                </li>
+                <li>4. 用户个人信息修改
+
+                    ​ 可以修改邮箱，用户名和密码，密码加密存储，不可逆的Hash
+                </li>
+                <li>
+                    5. 注册新用户
+
+                    ​ 可以注册新用户，要求用户名和邮箱不得和已有用户重复。
+                </li>
+            </ul>
+
+
+            </p>
+
+            <!--            <div>-->
+            <!--                <input name="userName" id="searchMessageUserName" class="input-medium search-query" type="text"/>-->
+            <!--                <button type="submit" id="searchMessage" class="btn">查找</button>-->
+            <!--            </div>-->
+
+
+            <!--            <table class="table">-->
+            <!--                <thead>-->
+            <!--                <tr>-->
+            <!--                    <th>ID</th>-->
+            <!--                    <th>标题</th>-->
+            <!--                    <th>内容</th>-->
+            <!--                    <th>创建时间</th>-->
+            <!--                    <th>修改时间</th>-->
+            <!--                    <th>提交用户ID</th>-->
+            <!--                </tr>-->
+            <!--                </thead>-->
+            <!--                <tbody id="tableBody">-->
+
+            <!--                </tbody>-->
+            <!--            </table>-->
+            <!--            <div id="beforePage" th:if="true" style="display: inline-block">-->
+            <!--                <button class="btn" type="button">上一页</button>-->
+            <!--            </div>-->
+            <!--            <span id="pageNum" style="display: inline-block"></span>-->
+            <!--            <div id="nextPage" style="display: inline-block">-->
+            <!--                <button class="btn" type="button" style="display: inline-block">下一页</button>-->
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

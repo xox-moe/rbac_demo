@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace指用户自定义的命名空间。 -->
+<mapper namespace="zx.learn.rbac_demo.mapper.ResourceMapper">
+
+    <update id="updateResource">
+        update resource
+        <set>
+            <if test="resourceName != null and resourceName != ''">resource_name=#{resourceName} ,</if>
+            <if test="parentId != null and parentId != ''"> parent_id=#{parentId} ,</if>
+            <if test="type != null and type != ''">`type`=#{type} ,</if>
+            <if test="url != null and url != ''">url=#{url} ,</if>
+            <if test="permission != null and permission != ''">permission=#{permission} ,</if>
+        </set>
+        where resource_id = ?;
+    </update>
+    <insert id="addResource">
+       insert into resource (resource_name, parent_id, `type`, url, permission)
+        values (#{resourceName} ,#{parentId} ,#{type},#{url} ,#{permission} );
+    </insert>
+</mapper>

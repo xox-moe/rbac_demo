@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace指用户自定义的命名空间。 -->
+<mapper namespace="zx.learn.rbac_demo.mapper.RoleMapper">
+
+
+    <select id="listResourceByRoleId" resultType="zx.learn.rbac_demo.entity.Resource">
+        select r.resource_id, resource_name, parent_id, `type`, url, permission
+        from role
+            left join role_resource rr on role.role_id = rr.role_id
+            left join resource r on rr.resource_id = r.resource_id
+        where rr.role_id = #{roleId} ;
+    </select>
+    <insert id="addRole">
+        insert into role (role_name)
+        values (#{roleName} );
+    </insert>
+    <update id="updateRole">
+        update role
+            set role_name = #{roleName}
+            where role_id = #{roleId}
+    </update>
+</mapper>

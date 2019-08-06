@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace指用户自定义的命名空间。 -->
+<mapper namespace="zx.learn.rbac_demo.mapper.MessageMapper">
+
+    <sql id="messageColumns">
+        ${alias}.id,${alias}.title,${alias}.detail,${alias}.create_time,${alias}.edit_time,${alias}.user_id
+    </sql>
+
+    <select id="listMessageByUserName" resultType="zx.learn.rbac_demo.entity.Message">
+        select
+        <include refid="messageColumns">
+            <property name="alias" value="msg"/>
+        </include>
+        from message msg
+        left join user on user_id = user.id
+        where user.name like concat('%', #{userName}, '%')
+        or msg.title like concat('%', #{userName}, '%')
+        or msg.detail like concat('%', #{userName}, '%')
+    </select>
+
+    <!--    <resultMap id="MessageMap" type="zx.learn.board.entity.Message">-->
+    <!--        <id property="id" column="id"/>-->
+    <!--        <result property="title" column="title"/>-->
+    <!--        <result property="detail" column="detail"/>-->
+    <!--        <result property="createTime" column="create_time"/>-->
+    <!--        <result property="editTime" column="edit_time"/>-->
+    <!--        <result property="userId" column="user_id"/>-->
+    <!--    </resultMap>-->
+
+
+    <insert id="addMessage">
+        
+        insert into message (title,detail,create_time,edit_time,user_id)
+        values (#{title},#{detail},#{createTime},#{editTime},#{userId});
+        
+    </insert>
+
+    <update id="updateMessage" parameterType="zx.learn.rbac_demo.entity.Message">
+        update message
+        <set>
+            <if test="title != null">title = #{title} ,</if>
+            <if test="detail != null">detail = #{detail} ,</if>
+            <if test="createTime != null">create_time = #{createTime} ,</if>
+            <if test="editTime != null">edit_time = #{editTime} ,</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteMessageById">
+        delete from message where id = #{messageId}
+    </delete>
+    <select id="getMessageById" resultType="zx.learn.rbac_demo.entity.Message">
+        select * from message where id =#{id}
+    </select>
+</mapper>
