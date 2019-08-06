@@ -10,12 +10,17 @@ public class TempleController {
 
     @RequestMapping("home")
     public String home(){
-        return "home";
+        return "index";
     }
 
     @RequestMapping("messageList")
     public String messageList(){
         return "messageList";
+    }
+
+    @RequestMapping("noPermission")
+    public String noPermission(){
+        return "noPermission";
     }
 
     @RequestMapping("userList")

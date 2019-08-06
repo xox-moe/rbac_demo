@@ -3,6 +3,7 @@ package zx.learn.rbac_demo.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import zx.learn.rbac_demo.entity.Group;
 import zx.learn.rbac_demo.entity.Resource;
 import zx.learn.rbac_demo.entity.Role;
 import zx.learn.rbac_demo.entity.User;
@@ -83,5 +84,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Resource> listResourceByUserId(Integer userId) {
         return mapper.listResourceByUserId(userId);
+    }
+
+    @Override
+    public List<Group> listUserGroupByUserId(Integer userId) {
+        return mapper.listUserGroupByUserId(userId);
     }
 }

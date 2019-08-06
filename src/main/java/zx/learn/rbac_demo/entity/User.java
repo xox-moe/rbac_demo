@@ -16,4 +16,6 @@ public class User {
     String userEmail;
     String userPhone;
 
+    Integer messageNum;
+
 }

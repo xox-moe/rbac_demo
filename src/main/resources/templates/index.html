@@ -1,60 +1,172 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="/favicon.ico">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
 
-  <title>Starter Template for Bootstrap</title>
+    <title>Starter Template for Bootstrap</title>
 
-  <!-- Bootstrap core CSS -->
-  <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+    <script src="/js/jquery-3.4.1.js"></script>
 </head>
 
-  <body>
+<!--<script>-->
+<!--    var page = 1;-->
+<!--    var limit = 5;-->
+<!--    var userName = "";-->
+<!--    var doAjax = function (page, limit, userName) {-->
+<!--        var MsgList = $.get('/message/listMessageByUserName', {-->
+<!--            page: page,-->
+<!--            limit: limit,-->
+<!--            userName: userName-->
+<!--        }).done(function (res) {-->
+<!--                console.log("page: " + page + "  limit:" + limit);-->
+<!--                $("#tableBody>tr").remove();-->
+<!--                for (var i = 0; i < 5; i++) {-->
+<!--                    var msg = res.data[i];-->
+<!--                    if (msg != null) {-->
+<!--                        $("#tableBody").append(-->
+<!--                            " <tr>\n" +-->
+<!--                            " <td>" + msg.id + "</td>\n" +-->
+<!--                            " <td>" + msg.title + "</td>\n" +-->
+<!--                            " <td>" + msg.detail + "</td>\n" +-->
+<!--                            " <td>" + msg.createTime + "</td>\n" +-->
+<!--                            " <td>" + msg.editTime + "</td>\n" +-->
+<!--                            " <td>" + msg.userId + "</td>\n" +-->
+<!--                            " </tr>");-->
+<!--                    }-->
+<!--                }-->
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
+<!--                console.log(res);-->
+
+<!--                if (page <= 1) {-->
+<!--                    $("#beforePage>button").addClass("hidden");-->
+<!--                } else {-->
+<!--                    $("#beforePage>button").removeClass("hidden")-->
+<!--                }-->
+
+<!--                console.log("当前: " + page + " 总页数:" + res.total / limit)-->
+<!--                if (page > (res.total / limit)) {-->
+<!--                    console.log("x需要进行隐藏啦")-->
+<!--                    $("#nextPage>button").addClass("hidden");-->
+<!--                } else {-->
+<!--                    $("#nextPage>button").removeClass("hidden")-->
+<!--                }-->
+<!--                $("#pageNum").html("<p>第" + page + "页</p>");-->
+
+<!--            }-->
+<!--        );-->
+
+<!--    };-->
+<!--    $(document).ready(function () {-->
+<!--        doAjax(page, limit, "");-->
+<!--        console.log(userName);-->
+<!--        var beforePage = $("#beforePage");-->
+<!--        beforePage.click(function () {-->
+<!--            if (page > 1)-->
+<!--                page = page - 1;-->
+<!--            doAjax(page,limit,userName)-->
+<!--        });-->
+<!--        var nextPage = $("#nextPage");-->
+<!--        nextPage.click(function () {-->
+<!--            page = page + 1;-->
+<!--            doAjax(page,limit,userName)-->
+<!--        });-->
+
+<!--        var searchAction = $("#searchMessage");-->
+<!--        searchAction.click(function () {-->
+<!--            userName = $("#searchMessageUserName").val();-->
+<!--            doAjax(page, limit, userName);-->
+<!--        });-->
+
+<!--    });-->
+<!--</script>-->
+
+<script>
+    $(document).ready(function(){
+        $("#homeHead").addClass("active")
+    })
+</script>
+
+<body>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div th:insert="NavBar::navbar"></div>
+
+
+            <p>
+
+            <h1>软件功能</h1>
+
+            <ul>
+                <li> 1. 用户信息查看，包括所有用户的信息
+
+                    ​ 无分页，无法修改信息，可以看到用户留言的条数
+                </li>
+                <li>
+                    2. 消息列表查看，可以删除，修改信息
+
+                    ​ 可以修改任何人的留言，删除任何人的留言，自动记录修改时间
+                </li>
+                <li>3. 消息新增
+
+                    ​ 新增消息，自动记录创建时间
+                </li>
+                <li>4. 用户个人信息修改
+
+                    ​ 可以修改邮箱，用户名和密码，密码加密存储，不可逆的Hash
+                </li>
+                <li>
+                    5. 注册新用户
+
+                    ​ 可以注册新用户，要求用户名和邮箱不得和已有用户重复。
+                </li>
+            </ul>
+
+
+            </p>
+
+            <!--            <div>-->
+            <!--                <input name="userName" id="searchMessageUserName" class="input-medium search-query" type="text"/>-->
+            <!--                <button type="submit" id="searchMessage" class="btn">查找</button>-->
+            <!--            </div>-->
+
+
+            <!--            <table class="table">-->
+            <!--                <thead>-->
+            <!--                <tr>-->
+            <!--                    <th>ID</th>-->
+            <!--                    <th>标题</th>-->
+            <!--                    <th>内容</th>-->
+            <!--                    <th>创建时间</th>-->
+            <!--                    <th>修改时间</th>-->
+            <!--                    <th>提交用户ID</th>-->
+            <!--                </tr>-->
+            <!--                </thead>-->
+            <!--                <tbody id="tableBody">-->
+
+            <!--                </tbody>-->
+            <!--            </table>-->
+            <!--            <div id="beforePage" th:if="true" style="display: inline-block">-->
+            <!--                <button class="btn" type="button">上一页</button>-->
+            <!--            </div>-->
+            <!--            <span id="pageNum" style="display: inline-block"></span>-->
+            <!--            <div id="nextPage" style="display: inline-block">-->
+            <!--                <button class="btn" type="button" style="display: inline-block">下一页</button>-->
+            <!--            </div>-->
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="container">
-
-      <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-      </div>
-
-    </div><!-- /.container -->
+    </div>
+</div>
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-  </body>
+</body>
 </html>

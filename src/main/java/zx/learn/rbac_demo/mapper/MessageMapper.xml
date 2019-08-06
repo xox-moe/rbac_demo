@@ -5,7 +5,7 @@
 <mapper namespace="zx.learn.rbac_demo.mapper.MessageMapper">
 
     <sql id="messageColumns">
-        ${alias}.id,${alias}.title,${alias}.detail,${alias}.create_time,${alias}.edit_time,${alias}.user_id
+        ${alias}.message_id,${alias}.title,${alias}.detail,${alias}.create_time,${alias}.edit_time,${alias}.user_id
     </sql>
 
     <select id="listMessageByUserName" resultType="zx.learn.rbac_demo.entity.Message">
@@ -14,8 +14,8 @@
             <property name="alias" value="msg"/>
         </include>
         from message msg
-        left join user on user_id = user.id
-        where user.name like concat('%', #{userName}, '%')
+        left join user on msg.user_id = user.user_id
+        where user.user_name like concat('%', #{userName}, '%')
         or msg.title like concat('%', #{userName}, '%')
         or msg.detail like concat('%', #{userName}, '%')
     </select>
@@ -45,12 +45,12 @@
             <if test="createTime != null">create_time = #{createTime} ,</if>
             <if test="editTime != null">edit_time = #{editTime} ,</if>
         </set>
-        where id = #{id}
+        where message_id = #{id}
     </update>
     <delete id="deleteMessageById">
-        delete from message where id = #{messageId}
+        delete from message where message_id = #{messageId}
     </delete>
     <select id="getMessageById" resultType="zx.learn.rbac_demo.entity.Message">
-        select * from message where id =#{id}
+        select * from message where message_id =#{id}
     </select>
 </mapper>

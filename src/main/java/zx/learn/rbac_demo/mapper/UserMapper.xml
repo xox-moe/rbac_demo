@@ -4,6 +4,9 @@
 <!-- namespace指用户自定义的命名空间。 -->
 <mapper namespace="zx.learn.rbac_demo.mapper.UserMapper">
 
+    <!--    <cache/>-->
+
+
     <select id="listUserRoleByUserId" resultType="zx.learn.rbac_demo.entity.Role">
         select r.role_id, role_name
         from user
@@ -13,7 +16,12 @@
     </select>
 
     <select id="listResourceByUserId" resultType="zx.learn.rbac_demo.entity.Resource">
-        select re.resource_id, resource_name, parent_id, type, url, permission
+        select re.resource_id as resourceId,
+        resource_name as resourceName,
+        parent_id as parentId,
+         `type` as type,
+         url as url,
+          permission as permission
         from user
             left join user_role ur on user.user_id = ur.user_id
             left join role r on ur.role_id = r.role_id
@@ -22,20 +30,33 @@
         where ur.user_id = #{userId}
     </select>
     <update id="updateUserInfo">
-         update user
-         <set>
-             <if test="userName != null and userName != ''">user_name= #{userName} ,</if>
-             <if test="userPassword != null and userPassword != ''">user_password= #{userPassword} ,</if>
-             <if test="userEmail != null and userName != ''">user_email =#{userEmail} ,</if>
-             <if test="userPhone != null and userPhone != ''">user_phone= #{userPhone} ,</if>
-         </set>
-         set  user_password = #{userPassword}
-           where user_id = #{userId} ;
+        update user
+        <set>
+            <if test="userName != null and userName != ''">user_name= #{userName} ,</if>
+            <if test="userPassword != null and userPassword != ''">user_password= #{userPassword} ,</if>
+            <if test="userEmail != null and userName != ''">user_email =#{userEmail} ,</if>
+            <if test="userPhone != null and userPhone != ''">user_phone= #{userPhone} ,</if>
+        </set>
+        set user_password = #{userPassword}
+        where user_id = #{userId} ;
     </update>
     <insert id="addUser">
         insert into user ( user_name, user_password, user_email, user_phone) " +
             "values (#{userName} ,#{userPassword},#{userEmail} ,#{userPhone}  );
     </insert>
+    <select id="listAllUser" resultType="zx.learn.rbac_demo.entity.User">
+        select user.user_id, user_name, user_email, user_phone , count(*) as messageNum
+        from user left join message on user.user_id = message.user_id
+        group by user.user_id, user_name, user_email, user_phone
+
+    </select>
+    <select id="listUserGroupByUserId" resultType="zx.learn.rbac_demo.entity.Group">
+        select `group`.group_id, group_name
+        from `group`
+                 left join group_user gu
+                    on `group`.group_id = gu.group_id
+        where user_id = #{userId} ;
+    </select>
 
 
 </mapper>

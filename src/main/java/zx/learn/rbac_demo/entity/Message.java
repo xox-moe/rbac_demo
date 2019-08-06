@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Message implements Serializable {
 
-    Integer id;
+    Integer messageId;
     String title;
     String detail;
 

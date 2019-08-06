@@ -31,18 +31,28 @@ public class LoginController {
     @RequestMapping("login")
     public ModelAndView loginAction(String userName, String password) {
 
+        ModelAndView mv = new ModelAndView();
+        User currentUser = (User) session.getAttribute("user");
+        if (currentUser != null) {
+            if (currentUser.getUserName().equals(userName)) {
+                log.info("用户已经登陆过了，直接跳过登录。");
+                mv.setViewName("index");
+                return mv;
+            }
+        }
+
         String mdsPwd = DigestUtils.md5DigestAsHex((password+"zx").getBytes());
 
-        ModelAndView mv = new ModelAndView();
-        log.info("开始查询用户名为 " + userName + "和密码为" + mdsPwd + " 的用户 的数量");
-        Integer count = userService.countUserByUserNameAndPassword(userName, mdsPwd);
+        log.info("开始查询用户名为 " + userName + "和密码为" + password + " 的用户 的数量");
+        Integer count = userService.countUserByUserNameAndPassword(userName, password);
 
+        log.info("根据用户名和密码 找到了"+count+"个匹配用户");
         if (count > 0) {
             User user = userService.getUserInfoByUserName(userName);
             log.info("开始查询用户名为 " + userName + " 的用户  结果为 " + user);
             session.setAttribute("user", user);
             cache.loadResources(user);
-            mv.setViewName("home");
+            mv.setViewName("index");
             return mv;
         }else {
             log.info("开始查询用户名为 " + userName + "和密码为" + mdsPwd + " 的用户  结果为空");
@@ -59,7 +69,7 @@ public class LoginController {
             return "login";
         }
         model.addAttribute("name", user.getUserName());
-        return "home";
+        return "index";
     }
 
 

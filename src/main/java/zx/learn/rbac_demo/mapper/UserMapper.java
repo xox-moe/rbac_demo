@@ -2,6 +2,7 @@ package zx.learn.rbac_demo.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Service;
+import zx.learn.rbac_demo.entity.Group;
 import zx.learn.rbac_demo.entity.Resource;
 import zx.learn.rbac_demo.entity.Role;
 import zx.learn.rbac_demo.entity.User;
@@ -28,7 +29,7 @@ public interface UserMapper {
 
     Boolean addUser(User user);
 
-    @Select(value = "select user_id, user_name, user_email, user_phone from user ;")
+//    @Select(value = "select user_id, user_name, user_email, user_phone from user ;")
     List<User> listAllUser(User user);
 
     List<Role> listUserRoleByUserId(Integer userId);
@@ -37,4 +38,6 @@ public interface UserMapper {
 
     @Select(value = "select user_id, user_name, user_email, user_phone from user where user_name = #{userName};")
     User getUserInfoByUserName(String userName);
+
+    List<Group> listUserGroupByUserId(Integer userId);
 }
