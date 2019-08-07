@@ -101,4 +101,16 @@ public class UserController {
         return "user/listMyResource";
     }
 
+    @RequestMapping("addUser")
+    public String addUser(Model model,User user) {
+        userService.registerUser(user);
+        return "redirect:/group/userList.html";
+    }
+
+    @RequestMapping("deleteUserById")
+    public String deleteUserById(Integer id) {
+        userService.deleteUser(id);
+        return "redirect:/group/userList.html";
+    }
+
 }

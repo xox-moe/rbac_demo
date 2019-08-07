@@ -40,8 +40,8 @@
         where user_id = #{userId} ;
     </update>
     <insert id="addUser">
-        insert into user ( user_name, user_password, user_email, user_phone) " +
-            "values (#{userName} ,#{userPassword},#{userEmail} ,#{userPhone}  );
+        insert into user ( user_name, user_password, user_email, user_phone)
+        values (#{userName} ,#{userPassword},#{userEmail} ,#{userPhone}  );
     </insert>
     <select id="listAllUser" resultType="zx.learn.rbac_demo.entity.User">
         select user.user_id, user_name, user_email, user_phone , count(*) as messageNum

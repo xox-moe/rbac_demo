@@ -1,6 +1,8 @@
 package zx.learn.rbac_demo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -11,6 +13,8 @@ import org.springframework.data.annotation.Id;
  * Description:
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Group {
 
     Integer groupId;

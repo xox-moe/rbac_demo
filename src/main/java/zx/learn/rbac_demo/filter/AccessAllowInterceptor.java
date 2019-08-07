@@ -74,7 +74,7 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
 
         if (user == null) {
             log.info("用户为空，重定向到登录页面");
-            response.sendRedirect("login");
+            response.sendRedirect("/login");
             return false;
         }
         //管理员直接放行，方便调试。
@@ -84,7 +84,7 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
         HashMap map = cache.getResourceByUserId(user.getUserId());
         Boolean ifPermit = hasPermission(subUrl, map);
         if (!ifPermit) {
-            response.sendRedirect("common/noPermission.html");
+            response.sendRedirect("/common/noPermission.html");
         }
         return ifPermit;
 

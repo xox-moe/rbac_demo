@@ -51,6 +51,7 @@ public class LoginController {
             User user = userService.getUserInfoByUserName(userName);
             log.info("开始查询用户名为 " + userName + " 的用户  结果为 " + user);
             session.setAttribute("user", user);
+            session.setAttribute("userId", user.getUserId());
             cache.loadResources(user);
             mv.setViewName("common/index");
             return mv;

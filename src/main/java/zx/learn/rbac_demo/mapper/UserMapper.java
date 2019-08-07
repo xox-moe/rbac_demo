@@ -40,4 +40,7 @@ public interface UserMapper {
     User getUserInfoByUserName(String userName);
 
     List<Group> listUserGroupByUserId(Integer userId);
+
+    @Delete("delete from user where user_id = #{userId} ")
+    Boolean deleteUserById(Integer userId);
 }

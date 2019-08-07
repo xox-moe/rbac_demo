@@ -47,5 +47,19 @@ public class GroupController {
         return "group/groupList";
     }
 
+    @RequestMapping("addGroup")
+    @ResponseBody
+    public ReturnBean addGroup(String groupName) {
+        if (groupService.addGroup(new Group(null, groupName))) {
+            return ReturnBean.getSuccess("success");
+        } else {
+            return ReturnBean.getFailed("失败");
+        }
+    }
+    @RequestMapping("deleteGroupById")
+    public String deleteGroupById(Integer id) {
+        groupService.deleteGroup(id);
+        return "redirect:/group/groupList.html";
+    }
 
 }

@@ -18,6 +18,33 @@
 
 </head>
 
+<script>
+    $(document).ready(function () {
+        var addGroup = $("#newGroup");
+        addGroup.click(function () {
+            var groupName = $("#groupName").val();
+            console.log("发送AJAX请求增加用户组");
+            $.get("/group/addGroup", {
+                groupName: groupName
+            }).done(function () {
+                location.reload();
+            })
+        });
+    })
+</script>
+
+<style>
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: black;
+    }
+</style>
+
 <body>
 
 
@@ -26,20 +53,40 @@
         <div class="span12">
             <div th:insert="../templates/common/NavBar::navbar"></div>
 
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>用户组ID</th>
-                    <th>用户组名</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each=" g : ${groupList}">
-                    <td th:text="*{g.groupId}"></td>
-                    <td th:text="*{g.groupName}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="col-lg-2"></div>
+
+            <div class="col-lg-8">
+
+                <div>
+                    <label class="checkbox" style="display: inline-block">组名: <input id="groupName" type="text"
+                                                                                     style="display: inline-block"/></label>
+
+                    <button class="btn" id="newGroup" type="button" style="display: inline-block">新增用户组</button>
+                </div>
+
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>用户组ID</th>
+                        <th>用户组名</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each=" g : ${groupList}">
+                        <td th:text="*{g.groupId}"></td>
+                        <td th:text="*{g.groupName}"></td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" type="button">
+                                <a th:href="@{/group/deleteGroupById(id=${g.groupId})}"> 删除</a>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
 
         </div>
     </div>

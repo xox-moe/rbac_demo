@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean deleteUser(Integer userId) {
-        return null;
+        return mapper.deleteUserById(userId);
     }
 
     @Override

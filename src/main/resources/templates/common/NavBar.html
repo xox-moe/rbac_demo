@@ -70,13 +70,13 @@
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">权限管理<strong class="caret"></strong></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#">角色列表</a>
+                            <a th:href="@{/role/roleList.html}" href="role/roleList">角色列表</a>
                         </li>
                         <li>
-                            <a href="#">资源列表</a>
+                            <a th:href="@{/resource/resourceList.html}" href="resource/resourceList">资源列表</a>
                         </li>
                         <li>
-                            <a href="#">角色分配</a>
+                            <a th:href="@{/role/allocateRole.html}" href="/role/allocateRole.html">角色分配</a>
                         </li>
                         <li>
                             <a href="#">权限分配</a>
