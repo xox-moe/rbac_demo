@@ -13,7 +13,10 @@
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+
     <script src="/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"  src="js/bootstrap.js"></script>
+
 </head>
 
 <style>
@@ -110,7 +113,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
-            <div th:insert="NavBar::navbar"></div>
+            <div th:insert="../templates/common/NavBar::navbar"></div>
             <div>
                 <input name="userName" id="searchMessageUserName" class="input-medium search-query" type="text"/>
                 <button type="submit" id="searchMessage" class="btn">查找</button>

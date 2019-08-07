@@ -37,7 +37,6 @@
             <if test="userEmail != null and userName != ''">user_email =#{userEmail} ,</if>
             <if test="userPhone != null and userPhone != ''">user_phone= #{userPhone} ,</if>
         </set>
-        set user_password = #{userPassword}
         where user_id = #{userId} ;
     </update>
     <insert id="addUser">

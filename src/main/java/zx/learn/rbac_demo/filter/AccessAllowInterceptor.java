@@ -35,12 +35,12 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
     static {
         allowList.add("/css/");
         allowList.add("/js/");
+        allowList.add("/static/");
         allowList.add("/fonts/");
         allowList.add("/login");
-        allowList.add("/noPermission");
+        allowList.add("/noPermission.html");
         allowList.add("/logout");
         allowList.add("/error");
-        allowList.add("/passwordError");
     }
 
     @Override//在一个请求进入Controller层方法执行前执行这个方法
@@ -56,6 +56,11 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
 
         log.info("对 请求路径： " + url + " 进行匹配，是否拦截");
 
+        if (url.endsWith(".html")) {
+            log.info("因为 " + subUrl + "以  .html  结尾，放行");
+            return true;
+        }
+
         for (String s : allowList) {
 //            log.info("判断 " + url + " 与 " + s + " 的关系中。。 ");
             if (subUrl.startsWith(s)) {
@@ -69,14 +74,17 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
 
         if (user == null) {
             log.info("用户为空，重定向到登录页面");
-            response.sendRedirect("/login");
+            response.sendRedirect("login");
             return false;
         }
+        //管理员直接放行，方便调试。
+        if(user.getUserName().equals("admin"))
+            return true;
 
         HashMap map = cache.getResourceByUserId(user.getUserId());
         Boolean ifPermit = hasPermission(subUrl, map);
         if (!ifPermit) {
-            response.sendRedirect("/noPermission");
+            response.sendRedirect("common/noPermission.html");
         }
         return ifPermit;
 

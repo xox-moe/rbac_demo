@@ -28,7 +28,7 @@ public class LoginController {
     CacheSingleton cache;
 
 
-    @RequestMapping("login")
+    @RequestMapping("/login")
     public ModelAndView loginAction(String userName, String password) {
 
         ModelAndView mv = new ModelAndView();
@@ -36,7 +36,7 @@ public class LoginController {
         if (currentUser != null) {
             if (currentUser.getUserName().equals(userName)) {
                 log.info("用户已经登陆过了，直接跳过登录。");
-                mv.setViewName("index");
+                mv.setViewName("common/index");
                 return mv;
             }
         }
@@ -52,12 +52,12 @@ public class LoginController {
             log.info("开始查询用户名为 " + userName + " 的用户  结果为 " + user);
             session.setAttribute("user", user);
             cache.loadResources(user);
-            mv.setViewName("index");
+            mv.setViewName("common/index");
             return mv;
         }else {
             log.info("开始查询用户名为 " + userName + "和密码为" + mdsPwd + " 的用户  结果为空");
             mv.addObject("error", "用户名或者密码错误");
-            mv.setViewName("login");
+            mv.setViewName("user/login");
             return mv;
         }
     }
@@ -66,17 +66,17 @@ public class LoginController {
     public String home(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return "login";
+            return "user/login";
         }
         model.addAttribute("name", user.getUserName());
-        return "index";
+        return "common/index";
     }
 
 
     @RequestMapping("logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "/login";
+        return "user/login";
     }
 
 }

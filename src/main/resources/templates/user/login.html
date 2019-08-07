@@ -13,13 +13,17 @@
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}" src="../../static/js/bootstrap.js"></script>
+
 </head>
 <body>
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
 
-            <div th:insert="NavBar::navbar"></div>
+
+<!--            <div th:insert="/common/NavBar::navbar"></div>-->
+            <div th:insert="../templates/common/NavBar::navbar"></div>
 
 
             <form th:action="@{/login}" method="post" class="form-horizontal">

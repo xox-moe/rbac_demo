@@ -14,44 +14,19 @@
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
     <script src="/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}" src="../../static/js/bootstrap.js"></script>
+
 </head>
 
-<script>
-    var doAjax = function () {
-        $.get('/user/listUser', {}).done(function (res) {
-                $("#tableBody>tr").remove();
-                for (var i = 0 ; i < res.total;i++) {
-                    var uuser = res.data[i];
-                    $("#tableBody").append(
-                        " <tr>\n" +
-                        " <td>" + uuser.userId + "</td>\n" +
-                        " <td>" + uuser.userName + "</td>\n" +
-                        " <td>" + uuser.userEmail + "</td>\n" +
-                        " <td>" + uuser.userPhone + "</td>\n" +
-                        " <td>" + uuser.messageNum + "</td>\n" +
-                        " </tr>");
-                }
-                console.log(res);
-            }
-        );
-
-    };
-    $(document).ready(function () {
-        doAjax();
-    });
-    $(document).ready(function(){
-        $("#userListHead").addClass("active");
-    })
-</script>
 <body>
 
 
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
-            <div th:insert="NavBar::navbar"></div>
+            <div th:insert="../templates/common/NavBar::navbar"></div>
 
-            <table class="table">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -61,8 +36,14 @@
                     <th>消息数量</th>
                 </tr>
                 </thead>
-                <tbody id="tableBody">
-
+                <tbody>
+                <tr th:each=" u : ${userList}">
+                    <td th:text="*{u.userId}"></td>
+                    <td th:text="*{u.userName}"></td>
+                    <td th:text="*{u.userEmail}"></td>
+                    <td th:text="*{u.userPhone}"></td>
+                    <td th:text="*{u.messageNum}"></td>
+                </tr>
                 </tbody>
             </table>
 

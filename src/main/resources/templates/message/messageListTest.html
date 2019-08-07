@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css">
+
+
+</head>
+<script src="/js/jquery-3.4.1.js"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}" src="js/bootstrap.js"></script>
+<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table-locale-all.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+
+<style>
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: black;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        console.log("执行了JS 触发了 document ready")
+    });
+
+    var messageList;
+
+    function editById(id, index) {
+        console.log("执行了JS 触发了 修改方法");
+        console.log(messageList.data);
+        console.log(index);
+        index = parseInt(index);
+        var rows = messageList.data;
+        console.log(rows);
+        // messageList
+        //问题来了 怎么弄出来 弹出层
+        // exampleModal
+
+        location.replace("http://localhost/message/editMessagePage.html?id=" + id)
+
+        // $("#exampleModal").modal();
+
+    }
+
+    function deleteById(id) {
+        console.log("执行了JS 触发了 删除 方法")
+        $.get('/message/deleteMessage', {
+            id: id
+        }).done(function (res) {
+                console.log(res);
+                alert(res.msg);
+                location.reload(true);
+
+            }
+        )
+    }
+
+    var operateFormatter = function (value, row, index) {//赋予的参数
+        return [
+            '<button class="btn btn-info btn-sm rightSize detailBtn" type="button">' +
+            '<i class="fa fa-paste"></i> ' +
+            '<a  href="javascript:editById(' + row.messageId + ',' + index + ');">修改</a>' +
+            '</button>',
+            '<button class="btn btn-danger btn-sm rightSize packageBtn" type="button"><i class="fa fa-envelope"></i>' +
+            '<a  href="javascript:deleteById(' + row.messageId + ');">删除</a>' +
+            '</button>'
+        ].join('');
+    };
+
+
+    var aa = $(function () {
+        $('#table1').bootstrapTable({
+            ajax: function (request) {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost/message/listMessageByUserName",
+                    data: {
+                        page: 1,
+                        limit: 0,
+                        userName: ''
+                    },
+                    contentType: "application/json;charset=utf-8",
+                    // dataType: "json",
+
+                    // jsonp: 'callback',
+                    success: function (msg) {
+                        messageList = msg.data;
+                        request.success({
+                            row: msg
+                        });
+                        console.log(msg);
+                        $('#table1').bootstrapTable('load', msg.data);
+                    },
+                    error: function () {
+                        alert("错误");
+                    }
+                });
+            },
+
+            toolbar: '#toolbar',
+            singleSelect: true,
+            clickToSelect: true,
+            sortName: "create_time",
+            sortOrder: "desc",
+            pageSize: 10,
+            pageNumber: 1,
+            pageList: "[5, 10, 20, All]",
+            showToggle: true,
+            showRefresh: true,
+            showColumns: true,
+            search: true,
+            pagination: true,
+            paginationPreText: "Previous",
+            paginationNextText: "Next",
+            paginationFirstText: "First",
+            paginationLastText: "Last",
+            columns: [{
+                field: "state",
+                checkbox: true
+            }, {
+                field: 'messageId',
+                title: '消息ID',
+                switchable: true
+            }, {
+                field: 'title',
+                title: '标题',
+                switchable: true
+            }, {
+                field: 'detail',
+                title: '详情',
+                switchable: true
+            }, {
+                field: 'createTime',
+                title: '创建时间',
+                switchable: true,
+                sortable: true
+            }, {
+                field: 'editTime',
+                title: '编辑时间',
+                switchable: true
+            }, {
+                field: 'userId',
+                title: '用户ID',
+                switchable: true
+            }, {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                formatter: operateFormatter
+            }]
+        });
+    });
+</script>
+
+<body>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div th:insert="../templates/common/NavBar::navbar"></div>
+
+
+            <table class="table"
+                   id="table1">
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <table id="table">
+    </table>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Recipient:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

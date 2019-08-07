@@ -8,6 +8,7 @@ spring:
       max-lifetime: 1765000
       maximum-pool-size: 15
 
+
 logging:
   level:
     zx:
@@ -28,3 +29,6 @@ pagehelper:
   supportMethodsArguments: true
   default-count: countSql
   row-bounds-with-count: true
+
+server:
+  port: 80

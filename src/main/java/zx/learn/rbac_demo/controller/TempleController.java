@@ -8,35 +8,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TempleController {
 
 
-    @RequestMapping("home")
+    @RequestMapping("home.html")
     public String home(){
-        return "index";
+        return "common/index";
     }
 
-    @RequestMapping("messageList")
+    @RequestMapping("common/index.html")
+    public String index(){
+        return "common/index";
+    }
+
+    @RequestMapping("message/messageList.html")
     public String messageList(){
-        return "messageList";
+        return "message/messageList";
     }
 
-    @RequestMapping("noPermission")
+
+    @RequestMapping("message/messageListTest.html")
+    public String messageListTest(){
+        return "message/messageListTest";
+    }
+
+
+    @RequestMapping("common/noPermission.html")
     public String noPermission(){
-        return "noPermission";
+        return "common/noPermission";
     }
 
-    @RequestMapping("userList")
+    @RequestMapping("user/userList.html")
     public String userList(){
-        return "userList";
+        return "group/userList";
     }
-
-    @RequestMapping("newMessage")
-    public String newMessage(){
-
-        return "newMessage";
-    }
-
-
-
-
 
 
 }

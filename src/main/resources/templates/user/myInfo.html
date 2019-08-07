@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>我的信息</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}" src="js/bootstrap.js"></script>
+
+</head>
+
+<style>
+    #userInfo li p {
+        display: inline;
+    }
+
+
+</style>
+
+<script>
+    $(document).ready(function () {
+        $("#myInfoHead").addClass("active");
+    })
+</script>
+
+<body>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div th:insert="../templates/common/NavBar::navbar"></div>
+
+
+            <div th:if="${errorInfo != null}">
+                <h2 th:value="${errorInfo}" th:text="${errorInfo}"></h2>
+            </div>
+
+            <div class="col-md-10">
+                <h2>个人资料</h2>
+                <hr>
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>用户名</th>
+                        <td th:text="${user.userName}">用户名</td>
+                    </tr>
+                    <tr>
+                        <th>邮箱</th>
+                        <td th:text=" ${user.userEmail}">邮箱</td>
+                    </tr>
+                    <tr>
+                        <th>电话</th>
+                        <td th:text="${user.userPhone}"> 电话</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

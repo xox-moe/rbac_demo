@@ -22,6 +22,12 @@ public class MessageController {
     MessageService messageService;
 
 
+    @RequestMapping("addMessage.html")
+    public String newMessage(){
+        return "message/newMessage";
+    }
+
+
     /**
      * 根据用户的请求新增留言
      *
@@ -39,13 +45,15 @@ public class MessageController {
         message.setEditTime(LocalDateTime.now());
         message.setUserId(user.getUserId());
         messageService.addMessage(message);
-        return "redirect:/messageList";
+        return "redirect:/message/messageListTest.html";
     }
 
     @RequestMapping("deleteMessage")
-    public String deleteMessage(Integer id) {
+    @ResponseBody
+    public ReturnBean deleteMessage(Integer id) {
         messageService.deleteMessageById(id);
-        return "redirect:/messageList";
+
+        return ReturnBean.getSuccess("删除成功");
     }
 
 //    @RequestMapping("updateMessage")
@@ -54,31 +62,31 @@ public class MessageController {
 //        return "home";
 //    }
 
-    @RequestMapping("editMessagePage")
-    public String editMessagePage(Model model,Integer id){
+    @RequestMapping("editMessagePage.html")
+    public String editMessagePage(Model model, Integer id) {
         Message message = messageService.getMessageById(id);
         model.addAttribute("message", message);
         model.addAttribute("edit", true);
-        return "newMessage";
+        return "message/newMessage";
     }
 
     @RequestMapping("editMessage")
-    public String editMessage(Model model, Message message){
+    public String editMessage(Model model, Message message) {
         message.setCreateTime(null);
         message.setEditTime(LocalDateTime.now());
         messageService.updateMessage(message);
-        return "redirect:/messageList";
+        return "redirect:message/messageList";
     }
 
     @RequestMapping("listMessageByUserName")
     @ResponseBody
     public ReturnBean listMessageByUserName(@RequestParam(required = false, defaultValue = "") String userName,
                                             @SessionAttribute User user,
-                                            @RequestParam(required = false,defaultValue = "1") Integer page,
-                                            @RequestParam(required = false,defaultValue = "5") Integer limit) {
+                                            @RequestParam(required = false, defaultValue = "1") Integer page,
+                                            @RequestParam(required = false, defaultValue = "5") Integer limit) {
 
         Page<Message> messageList = messageService.listMessageByUserName(userName.trim(), page, limit);
-        return ReturnBean.getSuccess("success",messageList,messageList.getTotal());
+        return ReturnBean.getSuccess("success", messageList, messageList.getTotal());
     }
 
 
