@@ -20,9 +20,9 @@
         values (#{resourceName} ,#{parentId} ,#{type},#{url} ,#{permission} );
     </insert>
     <select id="listResourceForRole" resultType="zx.learn.rbac_demo.entity.Resource">
-                select resource.resource_id, resource_name, parent_id, type, url, permission
-                from resource left join role_resource rr on resource.resource_id = rr.resource_id
-                where role_id = #{roleId}
+        select resource.resource_id, resource_name, parent_id, type, url, permission
+        from resource left join role_resource rr on resource.resource_id = rr.resource_id
+        where role_id = #{roleId}
     </select>
 
     <delete id="deleteAllResourceByRoleId">

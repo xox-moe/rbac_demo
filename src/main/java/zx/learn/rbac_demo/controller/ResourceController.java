@@ -11,7 +11,9 @@ import zx.learn.rbac_demo.service.RoleService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created with IntelliJ IDEA.
@@ -65,7 +67,7 @@ public class ResourceController {
 
     @RequestMapping("allocateResourceForRole.html")
     public String allocateResourceForRolePage(Model model, Integer roleId) {
-        List<Resource> resourceList = resourceService.listAllResource();
+        List<Resource> resourceList = resourceService.listAllResource().stream().sorted( Comparator.comparing(Resource::getUrl)).collect(Collectors.toList());
         List<Resource> roleResourceList = resourceService.listResourceForRole(roleId);
         model.addAttribute("resourceList", resourceList);
         model.addAttribute("roleResourceList", roleResourceList);

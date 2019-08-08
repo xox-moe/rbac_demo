@@ -2,6 +2,7 @@ package zx.learn.rbac_demo.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import zx.learn.rbac_demo.entity.Group;
 import zx.learn.rbac_demo.entity.Resource;
@@ -17,18 +18,31 @@ import java.util.List;
  * User: zx
  * Date: 2019/8/6
  * Time: 8:51
- * Description:
+ * Description: 本项目放置缓存的地方，
  */
 
-@Component()
+@Component
 @Slf4j
+//@Scope(value = )
 public class CacheSingleton {
 
     @Autowired
     UserService userService;
 
+    /**
+     * 保存本单例的实例引用
+     */
     public static CacheSingleton cacheSingleton;
 
+    /**
+     * 用户资源 用于缓存用户的URL权限，
+     * Integer 用户ID
+     * HashMap<String, Object> 一个资源列表
+     * 通常 String 放置资源名称 Object 放置资源
+     * 例如 resourceList       List<Resource>
+     *     资源名称             实例类型
+     *
+     */
     public HashMap<Integer, HashMap<String, Object>> userResource;
 
     {
@@ -75,6 +89,10 @@ public class CacheSingleton {
         map.put("groupList", groupList);
     }
 
+    /**
+     * 对指定的用户的权限进行重新加载
+     * @param userId 指定的用户的ID
+     */
     public void reloadResources(Integer userId) {
         HashMap<String, Object> map = this.getResourceByUserId(userId);
         List<Resource> resources = userService.listResourceByUserId(userId);
@@ -83,6 +101,10 @@ public class CacheSingleton {
         map.put("groupList", groupList);
     }
 
+    /**
+     * 对指定用户的资源进行清理
+     * @param user
+     */
     public void clearResources(User user) {
         HashMap<String, Object> map = this.getResourceByUserId(user.getUserId());
         map.clear();

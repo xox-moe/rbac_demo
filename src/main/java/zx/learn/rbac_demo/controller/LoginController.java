@@ -12,6 +12,7 @@ import zx.learn.rbac_demo.service.UserService;
 import zx.learn.rbac_demo.util.CacheSingleton;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -77,7 +78,10 @@ public class LoginController {
 
     @RequestMapping("logout")
     public String logout(HttpSession session) {
+        User currentUser = (User) session.getAttribute("user");
         session.invalidate();
+        Map map =  cache.getResourceByUserId(currentUser.getUserId());
+        map.clear();
         return "user/login";
     }
 

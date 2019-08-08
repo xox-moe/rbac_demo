@@ -12,24 +12,26 @@
             left join resource r on rr.resource_id = r.resource_id
         where rr.role_id = #{roleId} ;
     </select>
+
     <insert id="addRole">
         insert into role (role_name)
         values (#{roleName} );
     </insert>
+
     <update id="updateRole">
         update role
             set role_name = #{roleName}
             where role_id = #{roleId}
     </update>
+
     <insert id="addRoleToUser">
         insert into user_role ( user_id, role_id)
         values
         <foreach collection="param2" item="roleId" open="(" close=");" separator="),(">
             #{userId},#{roleId}
         </foreach>
-
-        
     </insert>
+
     <delete id="deleteUserRole">
         delete from user_role where user_id = #{userId}
     </delete>

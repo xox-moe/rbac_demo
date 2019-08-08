@@ -29,6 +29,7 @@
             left join resource re on rr.resource_id = re.resource_id
         where ur.user_id = #{userId}
     </select>
+
     <update id="updateUserInfo">
         update user
         <set>
@@ -39,16 +40,18 @@
         </set>
         where user_id = #{userId} ;
     </update>
+
     <insert id="addUser">
         insert into user ( user_name, user_password, user_email, user_phone)
         values (#{userName} ,#{userPassword},#{userEmail} ,#{userPhone}  );
     </insert>
+
     <select id="listAllUser" resultType="zx.learn.rbac_demo.entity.User">
         select user.user_id, user_name, user_email, user_phone , count(*) as messageNum
         from user left join message on user.user_id = message.user_id
         group by user.user_id, user_name, user_email, user_phone
-
     </select>
+
     <select id="listUserGroupByUserId" resultType="zx.learn.rbac_demo.entity.Group">
         select `group`.group_id, group_name
         from `group`
