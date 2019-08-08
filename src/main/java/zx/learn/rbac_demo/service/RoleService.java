@@ -1,6 +1,5 @@
 package zx.learn.rbac_demo.service;
 
-import org.springframework.stereotype.Service;
 import zx.learn.rbac_demo.entity.Resource;
 import zx.learn.rbac_demo.entity.Role;
 
@@ -36,17 +35,15 @@ public interface RoleService {
      * 新增角色
      *
      * @param role 需要新增的角色的信息 ID自增
-     * @return 新增成功的角色信息
      */
-    public Role addRole(Role role);
+    public void addRole(Role role);
 
     /**
      * 删除角色
      *
-     * @param role 需要新增的角色的信息
-     * @return 新增成功的角色信息
+     * @param roleId 需要删除的角色的Id
      */
-    public Boolean deleteRole(Role role);
+    public void deleteRole(Integer roleId);
 
     /**
      * 更新角色信息
@@ -62,4 +59,5 @@ public interface RoleService {
     public List<Resource> listResourceByRoleId(Integer roleId);
 
 
+    void addRoleToUser(Integer userId, List<Integer> roleIdList);
 }

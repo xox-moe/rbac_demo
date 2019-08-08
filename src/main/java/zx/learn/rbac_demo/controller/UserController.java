@@ -16,8 +16,10 @@ import zx.learn.rbac_demo.util.CacheSingleton;
 
 
 import javax.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @Slf4j
@@ -96,7 +98,7 @@ public class UserController {
     public String listMyResource(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         Map map = cache.getResourceByUserId(user.getUserId());
-        List<Resource> resourceList = (List<Resource>) map.get("resourceList");
+        Set<Resource> resourceList = new HashSet<>((List<Resource>) map.get("resourceList"));
         model.addAttribute("resourceList", resourceList);
         return "user/listMyResource";
     }

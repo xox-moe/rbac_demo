@@ -1,8 +1,10 @@
 package zx.learn.rbac_demo.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode
 public class Resource {
 
     /**

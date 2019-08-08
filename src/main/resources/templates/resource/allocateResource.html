@@ -9,28 +9,14 @@
     <meta name="author" content="">
     <link rel="icon" href="/favicon.ico">
 
-    <title>我的权限</title>
+    <title>用户信息列表</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
     <script src="/js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" th:src="@{/js/bootstrap.js}" src="js/bootstrap.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}" src="../../static/js/bootstrap.js"></script>
 
 </head>
-
-<style>
-    #userInfo li p {
-        display: inline;
-    }
-
-
-</style>
-
-<script>
-    $(document).ready(function () {
-        $("#myInfoHead").addClass("active");
-    })
-</script>
 
 <body>
 
@@ -40,30 +26,33 @@
         <div class="span12">
             <div th:insert="../templates/common/NavBar::navbar"></div>
 
-
-            <div class="col-md-10">
-                <h2>个人资料</h2>
-                <hr>
-                <table class="table table-bordered">
+            <form th:action="@{/resource/allocateResourceForRole}" th:method="post" method="post">
+                <input th:value="${roleId}" name="roleId" hidden="hidden">
+                <table class="table table-bordered" >
                     <thead>
                     <tr>
+                        <th>选择</th>
                         <th>ID</th>
                         <th>名称</th>
                         <th>类型</th>
                         <th>URL</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each=" rrr : ${resourceList}">
-                        <td th:text="${rrr.resourceId}"></td>
-                        <td th:text="${rrr.resourceName}"></td>
-                        <td th:text="${rrr.type}"></td>
-                        <td th:text="${rrr.url}"></td>
+                    <tbody id="tableBody">
+                    <tr th:each=" r : ${resourceList}">
+                        <td>
+                            <input class="check_btn" th:value="*{r.resourceId}" name="check" type="checkbox" th:if="${!roleResourceList.contains(r)}">
+                            <input class="check_btn" th:value="*{r.resourceId}" checked name="check" type="checkbox" th:if="${roleResourceList.contains(r)}">
+                        </td>
+                        <td th:text="*{r.resourceId}"></td>
+                        <td th:text="*{r.resourceName}"></td>
+                        <td th:text="*{r.type}"></td>
+                        <td th:text="*{r.url}"></td>
                     </tr>
                     </tbody>
                 </table>
-            </div>
-
+                <input type="submit" class="submit btn btn-info" value="提交">
+            </form>
 
         </div>
     </div>

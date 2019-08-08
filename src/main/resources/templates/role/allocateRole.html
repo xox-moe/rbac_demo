@@ -15,23 +15,43 @@
     <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
     <script src="/js/jquery-3.4.1.js"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.js}" src="../../static/js/bootstrap.js"></script>
-    <script type="text/javascript" th:src="@{/js/jquery-3.4.1.js}" src="/js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" th:src="@{/js/layer.js}" src="/js/layer.js"></script>
 
 </head>
 
-<style>
-    a {
-        text-decoration: none;
-        color: black;
-    }
+<script>
 
-    a:hover {
-        text-decoration: none;
-        color: black;
-    }
-</style>
+    var checkList= new Map();
+    $(document).ready(function () {
+        $("#button1").click(function () {
+            console.log($("#tableBody input[type='checked']").val());
+            console.log($("#tableBody input[name='roleId']").val());
+        });
 
+
+        $(".check_btn").click(function () {
+            if(this.checked){
+                checkList.set(this.value)
+                console.log(checkList)
+            } else {
+                checkList.delete(this.value)
+                console.log(checkList)
+            }
+                // checkList.append();
+            console.log(checkList)
+            console.log(this.checked)
+            $(this).attr('checked', true);
+            console.log(this.checked)
+        })
+
+
+        $("#button1").click(function () {
+
+        })
+
+    })
+
+
+</script>
 
 <body>
 
@@ -41,49 +61,31 @@
         <div class="span12">
             <div th:insert="../templates/common/NavBar::navbar"></div>
 
-
-
-            <script>
-
-                $('#addUserButton').on('click', function () {
-                    layer.open({
-                        type: 1,
-                        area: ['600px', '360px'],
-                        shadeClose: true, //点击遮罩关闭
-                        content: '这里放置内容，可能还需要ajax进行数据的查询，即这个用户已经拥有了哪些角色'
-                    });
-                });
-            </script>
-
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>用户名</th>
-                    <th>邮箱</th>
-                    <th>电话</th>
-                    <th>消息数量</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each=" u : ${userList}">
-                    <td th:text="*{u.userId}"></td>
-                    <td th:text="*{u.userName}"></td>
-                    <td th:text="*{u.userEmail}"></td>
-                    <td th:text="*{u.userPhone}"></td>
-                    <td th:text="*{u.messageNum}"></td>
-                    <td>
-                        <button class="btn btn-sm btn-danger" type="button">
-                            <a th:href="@{/role/allocateRoleForUserPage(id=${u.userId})}"> 分配角色</a>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <form th:action="@{/role/allocateRoleForUser}" th:method="post" method="post">
+                <input th:value="${userId}" name="userId" hidden="hidden">
+                <table class="table table-bordered" >
+                    <thead>
+                    <tr>
+                        <th>选择</th>
+                        <th>角色ID</th>
+                        <th>角色名</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    <tr th:each=" g : ${roleList}">
+                        <td>
+                            <input class="check_btn" th:value="*{g.roleId}" name="check" type="checkbox" th:if="${!userRoleList.contains(g)}">
+                            <input class="check_btn" th:value="*{g.roleId}" name="check" type="checkbox" checked th:if="${userRoleList.contains(g)}" >
+                        </td>
+                        <td name="roleId" th:text="*{g.roleId}"></td>
+                        <td th:text="*{g.roleName}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input type="submit" class="submit btn btn-info" value="提交">
+            </form>
 
         </div>
-
     </div>
 </div>
 

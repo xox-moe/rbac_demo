@@ -18,7 +18,7 @@ public interface RoleMapper {
     @Select(value = "select role_id, role_name from role where role_id = #{roleId} ;")
     Role getRoleByRoleId(Integer roleId);
 
-    Role addRole(Role role);
+    Boolean addRole(Role role);
 
     @Delete(value = "delete from role_resource where role_id = #{roleId} ")
     void deleteRoleResources(@Param("roleId") Integer roleId);
@@ -33,4 +33,9 @@ public interface RoleMapper {
 
 
     List<Resource> listResourceByRoleId(Integer roleId);
+
+    void addRoleToUser(Integer userId, List<Integer> roleIdList);
+
+    void deleteUserRole(Integer userId);
 }
+

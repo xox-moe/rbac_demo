@@ -36,22 +36,21 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role addRole(Role role) {
+    public void addRole(Role role) {
         role.setRoleId(null);
-        return mapper.addRole(role);
+        mapper.addRole(role);
     }
 
     @Override
     @Transactional
-    public Boolean deleteRole(Role role) {
+    public void deleteRole(Integer roleId) {
 
-        int userUseCount = mapper.userUseCount(role.getRoleId());
+        int userUseCount = mapper.userUseCount(roleId);
         if (userUseCount > 0) {
-            return false;
         } else {
             //注意这里删除的时候 要将该角色拥有的权限一起删除
-            mapper.deleteRoleResources(role.getRoleId());
-            return mapper.deleteRole(role.getRoleId());
+            mapper.deleteRoleResources(roleId);
+            mapper.deleteRole(roleId);
         }
     }
 
@@ -71,6 +70,13 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Resource> listResourceByRoleId(Integer roleId) {
         return mapper.listResourceByRoleId(roleId);
+    }
+
+    @Override
+    @Transactional
+    public void addRoleToUser(Integer userId, List<Integer> roleIdList) {
+        mapper.deleteUserRole(userId);
+        mapper.addRoleToUser(userId, roleIdList);
     }
 
 }

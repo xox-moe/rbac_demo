@@ -81,4 +81,9 @@ public class CacheSingleton {
         map.put("resourceList", resources);
         map.put("groupList", groupList);
     }
+
+    public void clearResources(User user) {
+        HashMap<String, Object> map = this.getResourceByUserId(user.getUserId());
+        map.clear();
+    }
 }

@@ -1,6 +1,5 @@
 package zx.learn.rbac_demo.service;
 
-import org.springframework.stereotype.Service;
 import zx.learn.rbac_demo.entity.Resource;
 
 import java.util.List;
@@ -15,13 +14,16 @@ import java.util.List;
 
 public interface ResourceService {
 
-    public Resource addResource(Resource resource);
+    public Boolean addResource(Resource resource);
 
     public Boolean updateResource(Resource resource);
 
-    public Boolean deleteResource(Resource resource);
+    public Boolean deleteResource(Integer resourceId);
 
     public List<Resource> listAllResource();
 
 
+    List<Resource> listResourceForRole(Integer roleId);
+
+    void addResourceToRole(Integer roleId, List<Integer> resourceIdList);
 }

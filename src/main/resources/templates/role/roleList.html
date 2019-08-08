@@ -18,6 +18,21 @@
 
 </head>
 
+<script>
+    $(document).ready(function () {
+        var addGroup = $("#newRole");
+        addGroup.click(function () {
+            var roleName = $("#roleName").val();
+            console.log("发送AJAX请求增加用户组");
+            $.get("/role/addRole", {
+                roleName: roleName
+            }).done(function () {
+                location.reload();
+            })
+        });
+    })
+</script>
+
 <body>
 
 
@@ -26,17 +41,30 @@
         <div class="span12">
             <div th:insert="../templates/common/NavBar::navbar"></div>
 
+
+            <div>
+                <label class="checkbox" style="display: inline-block">角色名: <input id="roleName" type="text"
+                                                                                 style="display: inline-block"/></label>
+
+                <button class="btn" id="newRole" type="button" style="display: inline-block">新增角色</button>
+            </div>
+
+
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>角色ID</th>
                     <th>角色名</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each=" g : ${roleList}">
                     <td th:text="*{g.roleId}"></td>
                     <td th:text="*{g.roleName}"></td>
+                    <td>
+                        <a class="btn-danger btn" type="button" th:href="@{/role/deleteRole(id=${g.roleId})}">删除</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

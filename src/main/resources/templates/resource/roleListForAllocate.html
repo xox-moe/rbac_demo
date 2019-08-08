@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/favicon.ico">
 
-    <title>用户信息列表</title>
+    <title>角色列表</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
@@ -17,17 +17,6 @@
     <script type="text/javascript" th:src="@{/js/bootstrap.js}" src="../../static/js/bootstrap.js"></script>
 
 </head>
-
-<script>
-    $(document).ready(function () {
-        $("#button1").click(function () {
-          console.log($("#tableBody input[type='checked']").val());
-          console.log($("#tableBody input[name='roleId']").val());
-        })
-    })
-
-
-</script>
 
 <body>
 
@@ -40,20 +29,23 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>选择</th>
                     <th>角色ID</th>
                     <th>角色名</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
-                <tbody id="tableBody">
+                <tbody>
                 <tr th:each=" g : ${roleList}">
-                    <td><input name="check" type="checkbox"></td>
-                    <td name="roleId" th:text="*{g.roleId}"></td>
+                    <td th:text="*{g.roleId}"></td>
                     <td th:text="*{g.roleName}"></td>
+                    <td>
+                        <a type="button" class="btn btn-info"
+                           th:href="@{/resource/allocateResourceForRole.html(roleId=*{g.roleId})}">分配权限</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
-            <button class="btn btn-sm btn-danger" id="button1" type="button">提交</button>
+
         </div>
     </div>
 </div>

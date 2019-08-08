@@ -42,7 +42,6 @@
             <div th:insert="../templates/common/NavBar::navbar"></div>
 
 
-            <button id="addUserButton" class="btn btn-info">新增用户</button>
 
             <script>
 
@@ -51,23 +50,7 @@
                         type: 1,
                         area: ['600px', '360px'],
                         shadeClose: true, //点击遮罩关闭
-                        content: '' +
-                            '<div class="container-fluid">\n' +
-                            '    <div class="row-fluid">\n' +
-                            '        <div class="span12">' +
-                            '<form th:action="@{/user/addUser}" action="/user/addUser" method="post">\n' +
-                            '    <fieldset>\n' +
-                            '        <legend>新增用户</legend>\n' +
-                            '        <label for="userName">用户名</label><input name="userName" type="text"/><br>\n' +
-                            '        <label>密码</label><input name="userPassword" type="text"/><br>\n' +
-                            '        <label>邮箱</label><input name="userEmail" type="text"/><br>\n' +
-                            '        <label>电话</label><input name="userPhone" type="text"/><br>\n' +
-                            '        <button type="submit" id="addNewUser" class="btn">提交</button>\n' +
-                            '    </fieldset>\n' +
-                            '</form>' +
-                            '        </div>\n' +
-                            '    </div>\n' +
-                            '</div>\n'
+                        content: '这里放置内容，可能还需要ajax进行数据的查询，即这个用户已经拥有了哪些角色'
                     });
                 });
             </script>
@@ -80,7 +63,6 @@
                     <th>邮箱</th>
                     <th>电话</th>
                     <th>消息数量</th>
-                    <th>用户角色</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -91,10 +73,9 @@
                     <td th:text="*{u.userEmail}"></td>
                     <td th:text="*{u.userPhone}"></td>
                     <td th:text="*{u.messageNum}"></td>
-                    <td th:text="*{u.roleStr}"></td>
                     <td>
                         <button class="btn btn-sm btn-danger" type="button">
-                            <a th:href="@{/user/deleteUserById(id=${u.userId})}"> 删除</a>
+                            <a th:href="@{/role/allocateRoleForUser.html(id=${u.userId})}"> 分配角色</a>
                         </button>
                     </td>
                 </tr>

@@ -1,5 +1,6 @@
 package zx.learn.rbac_demo.mapper;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -16,8 +17,15 @@ public interface ResourceMapper {
     @Delete(value = "delete from resource where resource_id = #{resourceId} ")
     Boolean deleteResource(Integer resourceId);
 
-    Resource addResource(Resource resource);
+    Boolean addResource(Resource resource);
 
     @Select("select * from resource;")
     List<Resource> listAllResource();
+
+    List<Resource> listResourceForRole(Integer roleId);
+
+    void deleteAllResourceByRoleId(Integer roleId);
+
+
+    void addResourceToRole(Integer roleId, List<Integer> resourceIdList);
 }

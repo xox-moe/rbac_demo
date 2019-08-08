@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import zx.learn.rbac_demo.entity.Resource;
 import zx.learn.rbac_demo.entity.Role;
 import zx.learn.rbac_demo.entity.User;
 import zx.learn.rbac_demo.service.RoleService;
 import zx.learn.rbac_demo.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,24 +37,56 @@ public class RoleController {
         return "role/roleList";
     }
 
+    @RequestMapping("addRole")
+    public String addRole(String roleName) {
+        Role role = new Role();
+        role.setRoleName(roleName);
+        roleService.addRole(role);
+        return "redirect:/role/roleList.html";
+    }
 
-//    跳转到角色分配页面，选择角色，然后确认，就算是给用户分配角色了。
-    @RequestMapping("allocateRoleForUserPage")
-    public String allocateRoleForUser(Model model,@SessionAttribute("userId") Integer userId) {
+    @RequestMapping("deleteRole")
+    public String deleteRole(Integer id) {
+        roleService.deleteRole(id);
+        return "redirect:/role/roleList.html";
+    }
+
+
+
+
+    //    跳转到角色分配页面，选择角色，然后确认，就算是给用户分配角色了。
+    @RequestMapping("allocateRoleForUser.html")
+    public String allocateRoleForUserPage(Model model, Integer id) {
+        List<Role> roleList = roleService.listAllRole();
+        List<Role> userRoleList = userService.listUserRoleByUserId(id);
+        model.addAttribute("roleList", roleList);
+        model.addAttribute("userId", id);
+        model.addAttribute("userRoleList", userRoleList);
+        return "role/allocateRole";
+    }
+
+    @RequestMapping("allocateRoleForUser")
+    public String allocateRoleForUser(Model model, Integer userId, HttpServletRequest request) {
+        String[] checkList = request.getParameterValues("check");
+        List<Integer> roleIdList = new ArrayList<>();
+        for (String s : checkList) {
+            roleIdList.add(Integer.valueOf(s));
+        }
+        roleService.addRoleToUser(userId, roleIdList);
         List<Role> roleList = roleService.listAllRole();
         List<Role> userRoleList = userService.listUserRoleByUserId(userId);
         model.addAttribute("roleList", roleList);
         model.addAttribute("userRoleList", userRoleList);
-        return "role/roleListFouAllocate.html";
-    }
-
-    @RequestMapping("allocateRole.html")
-    public String allocateRole(Model model) {
-        List<User> userList = userService.listAllUser(null);
-        model.addAttribute("userList", userList);
         return "role/allocateRole";
     }
 
+
+    @RequestMapping("userListForAllocate.html")
+    public String allocateRole(Model model) {
+        List<User> userList = userService.listAllUser(null);
+        model.addAttribute("userList", userList);
+        return "role/userListForAllocate";
+    }
 
 
 }

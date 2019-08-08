@@ -77,6 +77,7 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
             response.sendRedirect("/login");
             return false;
         }
+
         //管理员直接放行，方便调试。
         if(user.getUserName().equals("admin"))
             return true;
@@ -99,7 +100,6 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
-
         log.info("视图渲染完成后才执行");
 
     }

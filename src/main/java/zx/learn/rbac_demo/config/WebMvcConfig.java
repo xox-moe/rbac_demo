@@ -9,11 +9,6 @@ import zx.learn.rbac_demo.filter.AccessAllowInterceptor;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-//    @Bean
-//    public LoginInterceptor LoginInterceptor() {
-//        return new LoginInterceptor();
-//    }
-
     @Bean
     public AccessAllowInterceptor AccessAllowInterceptor() {
         return new AccessAllowInterceptor();
