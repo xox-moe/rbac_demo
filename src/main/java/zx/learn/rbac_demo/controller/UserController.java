@@ -74,23 +74,22 @@ public class UserController {
 
     @RequestMapping("changePassword")
     @ResponseBody
-    public ReturnBean changePassword(String oldPassword, String newPassword, String newPasswords, HttpSession session) {
+    public ReturnBean changePassword(String oldPassword, String newPassword, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        String md5OldPwd = DigestUtils.md5DigestAsHex((oldPassword + "zx").getBytes());
-        String md5NewPwd = DigestUtils.md5DigestAsHex((newPassword + "zx").getBytes());
         //不打算改密码
-        if (newPassword.equals(newPasswords)) {
+
 //                验证旧的密码是否错误
-            int count = userService.countUserByUserNameAndPassword(user.getUserName(), md5OldPwd);
-            if (count == 0) {
-                return ReturnBean.getFailed("旧密码错误");
-            } else {
-                userService.updateUserPassword(user.getUserId(), md5NewPwd);
-                return ReturnBean.getSuccess("修改成功");
-            }
+        int count = userService.countUserByUserNameAndPassword(user.getUserName(), oldPassword);
+
+        if (count == 0) {
+            return ReturnBean.getFailed("旧密码错误");
         } else {
-            return ReturnBean.getFailed("两次输入的密码不一致");
+            userService.updateUserPassword(user.getUserId(), newPassword);
+            session.invalidate();
+            return ReturnBean.getSuccess("修改成功");
         }
+
+
     }
 
 
@@ -104,7 +103,7 @@ public class UserController {
     }
 
     @RequestMapping("addUser")
-    public String addUser(Model model,User user) {
+    public String addUser(Model model, User user) {
         userService.registerUser(user);
         return "redirect:/group/userList.html";
     }

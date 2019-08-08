@@ -68,6 +68,8 @@ public class RoleController {
     @RequestMapping("allocateRoleForUser")
     public String allocateRoleForUser(Model model, Integer userId, HttpServletRequest request) {
         String[] checkList = request.getParameterValues("check");
+        if (checkList == null)
+            checkList = new String[0];
         List<Integer> roleIdList = new ArrayList<>();
         for (String s : checkList) {
             roleIdList.add(Integer.valueOf(s));

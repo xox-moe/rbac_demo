@@ -70,6 +70,7 @@ public class CacheSingleton {
         HashMap<String, Object> map = this.getResourceByUserId(user.getUserId());
         List<Resource> resources = userService.listResourceByUserId(user.getUserId());
         List<Group> groupList = userService.listUserGroupByUserId(user.getUserId());
+        map.clear();
         map.put("resourceList", resources);
         map.put("groupList", groupList);
     }

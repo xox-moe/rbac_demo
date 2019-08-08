@@ -23,6 +23,11 @@ public class TempleController {
         return "message/messageList";
     }
 
+    @RequestMapping("user/changePassword.html")
+    public String changePassword(){
+        return "user/changePassword";
+    }
+
 
     @RequestMapping("message/messageListTest.html")
     public String messageListTest(){

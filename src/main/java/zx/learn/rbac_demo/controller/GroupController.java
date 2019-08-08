@@ -37,6 +37,13 @@ public class GroupController {
     @Autowired
     GroupService groupService;
 
+    /**
+     * 查看用户列表
+     *
+     * @param user
+     * @param model
+     * @return
+     */
     @RequestMapping("userList.html")
     public String listUser(@RequestParam(required = false) User user, Model model) {
         if (user == null)
@@ -49,10 +56,10 @@ public class GroupController {
 //            for (Role role : userRoleList) {
 //                stringBuilder.append(role.getRoleName()).append(",");
 //            }
-            String roleStr = StringUtils.join(userRoleList.parallelStream().map(Role::getRoleName).toArray(),",") ;
+            String roleStr = StringUtils.join(userRoleList.parallelStream().map(Role::getRoleName).toArray(), ",");
 //            userRoleList.forEach( r-> stringBuilder.append(r.getRoleName()).append(","));
             Map<String, String> user2 = MapBeanUtil.object2Map(user1);
-            user2.put("roleStr",roleStr);
+            user2.put("roleStr", roleStr);
             result.add(user2);
         }
 
@@ -61,6 +68,12 @@ public class GroupController {
 //        return ReturnBean.getSuccess("success", userList, userList.size());
     }
 
+    /**
+     * 用户组页面
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("groupList.html")
     public String groupList(Model model) {
         List<Group> groupList = groupService.listAllGroup();
@@ -77,6 +90,7 @@ public class GroupController {
             return ReturnBean.getFailed("失败");
         }
     }
+
     @RequestMapping("deleteGroupById")
     public String deleteGroupById(Integer id) {
         groupService.deleteGroup(id);

@@ -32,6 +32,8 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
 
     public static Set<String> allowList = new HashSet<String>();
 
+    public static Set<String> refreshPermissionList = new HashSet<String>();
+
     static {
         allowList.add("/css/");
         allowList.add("/js/");
@@ -41,6 +43,9 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
         allowList.add("/noPermission.html");
         allowList.add("/logout");
         allowList.add("/error");
+
+        refreshPermissionList.add("/resource/allocateResourceForRole");
+        refreshPermissionList.add("/role/allocateRoleForUser");
     }
 
     @Override//在一个请求进入Controller层方法执行前执行这个方法
@@ -56,10 +61,10 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
 
         log.info("对 请求路径： " + url + " 进行匹配，是否拦截");
 
-        if (url.endsWith(".html")) {
-            log.info("因为 " + subUrl + "以  .html  结尾，放行");
-            return true;
-        }
+//        if (url.endsWith(".html")) {
+//            log.info("因为 " + subUrl + "以  .html  结尾，放行");
+//            return true;
+//        }
 
         for (String s : allowList) {
 //            log.info("判断 " + url + " 与 " + s + " 的关系中。。 ");
@@ -79,7 +84,7 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
         }
 
         //管理员直接放行，方便调试。
-        if(user.getUserName().equals("admin"))
+        if (user.getUserName().equals("admin"))
             return true;
 
         HashMap map = cache.getResourceByUserId(user.getUserId());
@@ -95,6 +100,27 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            @Nullable ModelAndView modelAndView) throws Exception {
         log.info("请求结束执行");
+
+        //在这里对当前用户进行权限刷新
+        //上下文路径
+        String ctxPath = request.getContextPath();
+        // 请求的url
+        String url = request.getRequestURI();
+        // 相对路径
+        String subUrl = url.substring(ctxPath.length());
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        for (String s : refreshPermissionList) {
+//            log.info("判断 " + url + " 与 " + s + " 的关系中。。 ");
+            if (subUrl.startsWith(s)) {
+                cache.reloadResources(user.getUserId());
+                log.info("与刷新列表匹配 进行权限刷新");
+            }
+        }
+
+
     }
 
 
@@ -127,8 +153,8 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
                 //如果 不是 edit delete 等权限 ， 直接放行          到时候写个枚举类
                 //这里使用 资源的 type 区分一下 ajax 请求 和 其他类型的请求，
 //                if (!(resource.getType().equals("edit") || resource.getType().equals("delete"))) {
-                    log.info("有权限，且权限类型不是修改类型，可访问，放行");
-                    return true;
+                log.info("有权限，且权限类型不是修改类型，可访问，放行");
+                return true;
 //                } else {
 //                    //是 edit delete 要进行权限判断。 首先是用户是否有删除权限，再判断用户是不是该用户组。
 //                    log.info("有权限，但是权限类型是修改了类型，进一步判断");

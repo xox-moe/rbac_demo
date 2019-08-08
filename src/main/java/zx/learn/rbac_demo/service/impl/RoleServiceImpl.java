@@ -76,7 +76,8 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void addRoleToUser(Integer userId, List<Integer> roleIdList) {
         mapper.deleteUserRole(userId);
-        mapper.addRoleToUser(userId, roleIdList);
+        if (roleIdList.size() > 0)
+            mapper.addRoleToUser(userId, roleIdList);
     }
 
 }
