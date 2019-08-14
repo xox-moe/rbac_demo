@@ -5,15 +5,29 @@ spring:
     password: WfXc2isTj5a3GSsF
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      max-lifetime: 60000
+      max-lifetime: 180000
       maximum-pool-size: 15
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+    check-template: true
+    mode: HTML5
+
 
 
 logging:
   level:
+    root: info
     zx:
       learn:
         rbac_demo: debug
+    org:
+      mybatis: debug
+
+
+
+
+#        org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
 
 mybatis:
   mapper-locations: classpath:zx/learn/board/mapper/*.xml

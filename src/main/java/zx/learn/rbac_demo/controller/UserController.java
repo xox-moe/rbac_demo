@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import zx.learn.rbac_demo.annotation.SysLogs;
 import zx.learn.rbac_demo.entity.Resource;
 import zx.learn.rbac_demo.entity.ReturnBean;
 import zx.learn.rbac_demo.entity.User;
@@ -42,6 +43,7 @@ public class UserController {
 //        return "home";
 //    }
 
+    @SysLogs(name = "我的信息页面", type = "跳转")
     @RequestMapping("myInfo.html")
     public String myInfo(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -49,6 +51,7 @@ public class UserController {
         return "user/myInfo";
     }
 
+    @SysLogs(name = "编辑我的信息页面", type = "查询&跳转")
     @RequestMapping("editMyInfo.html")
     public String editMyInfo(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -56,6 +59,7 @@ public class UserController {
         return "user/editMyInfo";
     }
 
+    @SysLogs(name = "编辑我的信息", type = "修改&跳转")
     @RequestMapping("editMyInfo")
     public String editMyInfo(Model model, HttpSession session, User user) {
         User oldUser = (User) session.getAttribute("user");
@@ -72,6 +76,7 @@ public class UserController {
         return "user/myInfo";
     }
 
+    @SysLogs(name = "修改密码", type = "查询&修改")
     @RequestMapping("changePassword")
     @ResponseBody
     public ReturnBean changePassword(String oldPassword, String newPassword, HttpSession session) {
@@ -88,11 +93,10 @@ public class UserController {
             session.invalidate();
             return ReturnBean.getSuccess("修改成功");
         }
-
-
     }
 
 
+    @SysLogs(name = "我的资源", type = "查询&跳转")
     @RequestMapping("listMyResource.html")
     public String listMyResource(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -102,12 +106,14 @@ public class UserController {
         return "user/listMyResource";
     }
 
+    @SysLogs(name = "新增用户", type = "增加&跳转")
     @RequestMapping("addUser")
     public String addUser(Model model, User user) {
         userService.registerUser(user);
         return "redirect:/group/userList.html";
     }
 
+    @SysLogs(name = "删除用户", type = "删除&跳转")
     @RequestMapping("deleteUserById")
     public String deleteUserById(Integer id) {
         userService.deleteUser(id);

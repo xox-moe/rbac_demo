@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import zx.learn.rbac_demo.annotation.SysLogs;
 import zx.learn.rbac_demo.entity.Resource;
 import zx.learn.rbac_demo.entity.Role;
 import zx.learn.rbac_demo.service.ResourceService;
@@ -34,6 +35,7 @@ public class ResourceController {
     @Autowired
     RoleService roleService;
 
+    @SysLogs(name = "新增资源", type = "增加&跳转")
     @RequestMapping("addResource")
     public String addResource(String resourceName, String type, String url) {
         Resource resource = new Resource();
@@ -44,13 +46,14 @@ public class ResourceController {
         return "redirect:/resource/resourceList.html";
     }
 
+    @SysLogs(name = "删除资源", type = "删除&跳转")
     @RequestMapping("deleteResource")
     public String deleteResource(Integer id) {
         resourceService.deleteResource(id);
         return "redirect:/resource/resourceList.html";
     }
 
-
+    @SysLogs(name = "资源列表页面", type = "查询&跳转")
     @RequestMapping("resourceList.html")
     public String groupList(Model model) {
         List<Resource> resourceList = resourceService.listAllResource();
@@ -58,6 +61,7 @@ public class ResourceController {
         return "resource/resourceList";
     }
 
+    @SysLogs(name = "角色列表页面", type = "查询&跳转")
     @RequestMapping("roleListForAllocate.html")
     public String roleListForAllocatePage(Model model) {
         List<Role> roleList = roleService.listAllRole();
@@ -65,9 +69,11 @@ public class ResourceController {
         return "resource/roleListForAllocate";
     }
 
+    @SysLogs(name = "分配资源页面", type = "查询&跳转")
     @RequestMapping("allocateResourceForRole.html")
     public String allocateResourceForRolePage(Model model, Integer roleId) {
-        List<Resource> resourceList = resourceService.listAllResource().stream().sorted( Comparator.comparing(Resource::getUrl)).collect(Collectors.toList());
+        List<Resource> resourceList = resourceService.listAllResource()
+                .stream().sorted(Comparator.comparing(Resource::getUrl)).collect(Collectors.toList());
         List<Resource> roleResourceList = resourceService.listResourceForRole(roleId);
         model.addAttribute("resourceList", resourceList);
         model.addAttribute("roleResourceList", roleResourceList);
@@ -76,6 +82,7 @@ public class ResourceController {
     }
 
 
+    @SysLogs(name = "分配资源", type = "删除&插入&跳转")
     @RequestMapping("allocateResourceForRole")
     public String allocateResourceForRole(Model model, Integer roleId, HttpServletRequest request) {
         String[] checkList = request.getParameterValues("check");

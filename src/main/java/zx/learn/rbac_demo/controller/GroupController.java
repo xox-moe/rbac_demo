@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import zx.learn.rbac_demo.annotation.SysLogs;
 import zx.learn.rbac_demo.entity.Group;
 import zx.learn.rbac_demo.entity.ReturnBean;
 import zx.learn.rbac_demo.entity.Role;
@@ -45,6 +46,7 @@ public class GroupController {
      * @return
      */
     @RequestMapping("userList.html")
+    @SysLogs(name = "用户列表页面", type = "查询&跳转")
     public String listUser(@RequestParam(required = false) User user, Model model) {
         if (user == null)
             user = new User();
@@ -75,6 +77,7 @@ public class GroupController {
      * @return
      */
     @RequestMapping("groupList.html")
+    @SysLogs(name = "用户组列表页面", type = "查询&跳转")
     public String groupList(Model model) {
         List<Group> groupList = groupService.listAllGroup();
         model.addAttribute("groupList", groupList);
@@ -83,6 +86,7 @@ public class GroupController {
 
     @RequestMapping("addGroup")
     @ResponseBody
+    @SysLogs(name = "新增用户组", type = "增加")
     public ReturnBean addGroup(String groupName) {
         if (groupService.addGroup(new Group(null, groupName))) {
             return ReturnBean.getSuccess("success");
@@ -92,6 +96,7 @@ public class GroupController {
     }
 
     @RequestMapping("deleteGroupById")
+    @SysLogs(name = "删除用户组", type = "删除&跳转")
     public String deleteGroupById(Integer id) {
         groupService.deleteGroup(id);
         return "redirect:/group/groupList.html";

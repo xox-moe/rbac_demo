@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import zx.learn.rbac_demo.annotation.SysLogs;
 import zx.learn.rbac_demo.entity.User;
 import zx.learn.rbac_demo.service.UserService;
 import zx.learn.rbac_demo.util.CacheSingleton;
@@ -30,6 +31,7 @@ public class LoginController {
 
 
     @RequestMapping("/login")
+    @SysLogs(name = "登录动作", type = "查询")
     public ModelAndView loginAction(String userName, String password) {
 
         ModelAndView mv = new ModelAndView();
@@ -42,12 +44,12 @@ public class LoginController {
             }
         }
 
-        String mdsPwd = DigestUtils.md5DigestAsHex((password+"zx").getBytes());
+        String mdsPwd = DigestUtils.md5DigestAsHex((password + "zx").getBytes());
 
         log.info("开始查询用户名为 " + userName + "和密码为" + password + " 的用户 的数量");
         Integer count = userService.countUserByUserNameAndPassword(userName, password);
 
-        log.info("根据用户名和密码 找到了"+count+"个匹配用户");
+        log.info("根据用户名和密码 找到了" + count + "个匹配用户");
         if (count > 0) {
             User user = userService.getUserInfoByUserName(userName);
             log.info("开始查询用户名为 " + userName + " 的用户  结果为 " + user);
@@ -57,7 +59,7 @@ public class LoginController {
             cache.loadResources(user);
             mv.setViewName("common/index");
             return mv;
-        }else {
+        } else {
             log.info("开始查询用户名为 " + userName + "和密码为" + mdsPwd + " 的用户  结果为空");
             mv.addObject("error", "用户名或者密码错误");
             mv.setViewName("user/login");
@@ -66,6 +68,7 @@ public class LoginController {
     }
 
     @RequestMapping("/")
+    @SysLogs(name = "主页", type = "跳转页面")
     public String home(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -77,10 +80,11 @@ public class LoginController {
 
 
     @RequestMapping("logout")
+    @SysLogs(name = "登出", type = "系统动作")
     public String logout(HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
         session.invalidate();
-        Map map =  cache.getResourceByUserId(currentUser.getUserId());
+        Map map = cache.getResourceByUserId(currentUser.getUserId());
         map.clear();
         return "user/login";
     }

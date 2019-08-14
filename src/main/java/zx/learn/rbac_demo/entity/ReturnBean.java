@@ -2,6 +2,7 @@ package zx.learn.rbac_demo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +13,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@ToString
 public class ReturnBean {
 
     public int status;

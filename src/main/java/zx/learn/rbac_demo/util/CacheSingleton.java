@@ -51,15 +51,15 @@ public class CacheSingleton {
         CacheSingleton.cacheSingleton = this;
     }
 
+    /**
+     * 获取用户的缓存 map
+     * @param userId 用户ID
+     * @return 用户的私人缓存。
+     */
     public HashMap<String, Object> getResourceByUserId(Integer userId) {
         if (this.userResource.containsKey(userId)) {
             HashMap<String, Object> map = this.userResource.get(userId);
-//            if (map == null) {
-//            return this.userResource.put(userId, new HashMap<>());
-//            } else {
             return map;
-//            }
-
         } else {
             this.userResource.put(userId, new HashMap<>());
             return this.userResource.get(userId);
@@ -78,7 +78,7 @@ public class CacheSingleton {
     /**
      * 这里 进行加载该用户的资源。主要是有哪些权限。
      *
-     * @param user
+     * @param user 对给定的user进行 资源的加载 包括他是哪个组，拥有什么资源之类的。
      */
     public void loadResources(User user) {
         HashMap<String, Object> map = this.getResourceByUserId(user.getUserId());

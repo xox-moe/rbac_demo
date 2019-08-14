@@ -62,6 +62,7 @@
                     <th>用户名</th>
                     <th>邮箱</th>
                     <th>电话</th>
+                    <th>用户角色</th>
                     <th>消息数量</th>
                     <th>操作</th>
                 </tr>
@@ -72,6 +73,7 @@
                     <td th:text="*{u.userName}"></td>
                     <td th:text="*{u.userEmail}"></td>
                     <td th:text="*{u.userPhone}"></td>
+                    <td th:text="*{u.roleStr}"></td>
                     <td th:text="*{u.messageNum}"></td>
                     <td>
                         <button class="btn btn-sm btn-danger" type="button">

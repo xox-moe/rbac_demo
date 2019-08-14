@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created with IntelliJ IDEA.
@@ -40,7 +41,8 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
         allowList.add("/static/");
         allowList.add("/fonts/");
         allowList.add("/login");
-        allowList.add("/noPermission.html");
+        allowList.add("/common/noPermission.html");
+        allowList.add("/common/index.html");
         allowList.add("/logout");
         allowList.add("/error");
 
@@ -61,12 +63,9 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
 
         log.debug("对 请求路径： " + url + " 进行匹配，是否拦截");
 
-
-        for (String s : allowList) {
-            if (subUrl.startsWith(s)) {
-                log.debug("因为 " + subUrl + "以 " + s + " 开头，在直接放行列表中，放行");
-                return true;
-            }
+        if (allowList.parallelStream().anyMatch(subUrl::startsWith)) {
+            log.debug("因为 " + subUrl + " 在直接放行列表中，放行");
+            return true;
         }
 
         HttpSession session = request.getSession();
@@ -86,6 +85,8 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
         Boolean ifPermit = hasPermission(subUrl, map);
         if (!ifPermit) {
             response.sendRedirect("/common/noPermission.html");
+        } else {
+            log.debug("根据系统判断，用户有访问 " + subUrl + " 的权限，放行");
         }
         return ifPermit;
 
@@ -111,15 +112,6 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
             log.debug("与刷新列表匹配 进行权限刷新");
         }
 
-//        for (String s : refreshPermissionList) {
-////            log.info("判断 " + url + " 与 " + s + " 的关系中。。 ");
-//            if (subUrl.startsWith(s)) {
-//                cache.reloadResources(user.getUserId());
-//                log.info("与刷新列表匹配 进行权限刷新");
-//            }
-//        }
-
-
     }
 
 
@@ -140,26 +132,9 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
     public Boolean hasPermission(String url, HashMap map) {
 
         log.debug("Resource匹配： 对 " + url + " 进行权限判断 是否进行拦截");
-
         List<Resource> resourceList = (List<Resource>) map.get("resourceList");
-//        对资源进行扫描？ 然后进行匹配??
-        log.debug("对"+url+"进行资源匹配扫描");
+        log.debug("对" + url + "进行资源匹配扫描");
         return (resourceList.parallelStream().map(Resource::getUrl).anyMatch(url::startsWith));
-
-//
-//        for (Resource resource : resourceList) {
-//            //首先，URL前缀要匹配 这里就涉及到编辑权限 与 用户组的关系。
-//            //如果是以 指定的为前缀 打算放行
-//            if (url.startsWith(resource.getUrl())) {
-//                //如果 不是 edit delete 等权限 ， 直接放行          到时候写个枚举类
-//                //这里使用 资源的 type 区分一下 ajax 请求 和 其他类型的请求，
-////                if (!(resource.getType().equals("edit") || resource.getType().equals("delete"))) {
-//                log.info("有权限，且权限类型不是修改类型，可访问，放行");
-//                return true;
-//            }
-//        }
-//
-//        return false;
     }
 
 }

@@ -31,10 +31,10 @@
 
 
     <insert id="addMessage">
-        
+
         insert into message (title,detail,create_time,edit_time,user_id)
         values (#{title},#{detail},#{createTime},#{editTime},#{userId});
-        
+
     </insert>
 
     <update id="updateMessage" parameterType="zx.learn.rbac_demo.entity.Message">
