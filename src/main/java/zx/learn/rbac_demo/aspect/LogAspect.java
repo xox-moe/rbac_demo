@@ -5,11 +5,13 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import zx.learn.rbac_demo.annotation.SysLogs;
 import zx.learn.rbac_demo.entity.SysLog;
 import zx.learn.rbac_demo.entity.User;
+import zx.learn.rbac_demo.service.SysLogService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +30,10 @@ import java.util.Arrays;
 @Aspect
 @Slf4j
 public class LogAspect {
+
+
+    @Autowired
+    SysLogService logService;
 
     @Pointcut("execution(* zx.learn.rbac_demo.controller.*.*(..))")
     public void logPoint() {
@@ -64,6 +70,7 @@ public class LogAspect {
         Signature signature = pjp.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
+        sysLog.setMethodName(method.getName());
         if (method.isAnnotationPresent(SysLogs.class)) {
             //获取方法上注解中表明的权限
             SysLogs sysLogs = method.getAnnotation(SysLogs.class);
@@ -96,37 +103,44 @@ public class LogAspect {
         }
         for (Object arg : args) {
             try {
-                log.debug("参数：" + arg.toString());
-
+                log.debug("参数：" + (arg == null ? "" : arg.toString()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         log.info(pjp.toLongString());
-        sysLog.setMethodName(pjp.toLongString());
         try {
             long startTime = System.currentTimeMillis();
             Object ret = pjp.proceed();
             long endTime = System.currentTimeMillis();
-            log.debug("耗时： " + (endTime - startTime));
+            log.debug("耗时(毫秒)： " + (endTime - startTime));
             log.debug("返回类型： " + ret.getClass().toString());
             log.debug("返回值： " + ret.toString());
             log.debug("环绕后置");
 
-            sysLog.setTimeUse(endTime - startTime);
+            sysLog.setTimeUse((int) (endTime - startTime));
             sysLog.setReturnResult(ret.toString().length() > 200 ? "数据过长，不记录" : ret.toString());
             sysLog.setCreateDate(LocalDateTime.now());
 
             log.debug(sysLog.toString());
             sysLog.setIfSuccess(true);
+            logService.addLog(sysLog);
             return ret;
         } catch (Throwable throwable) {
             log.info("环绕抛出异常");
             sysLog.setIfSuccess(false);
+            logService.addLog(sysLog);
             throwable.printStackTrace();
             log.info(sysLog.toString());
         }
         return "error";
+    }
+
+
+    public static SysLog newSysLog(HttpServletRequest request) {
+
+
+        return null;
     }
 
 

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://aliyun.germinal.cc:3306/rbac_demo?useUnicode=yes&characterEncoding=UTF8&useSSL=false
+    url: jdbc:mysql://aliyun.germinal.cc:3306/rbac_demo?useUnicode=yes&characterEncoding=UTF8&useSSL=false&serverTimezone=CTT
     username: rbac_demo
     password: WfXc2isTj5a3GSsF
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,6 +13,7 @@ spring:
     check-template: true
     mode: HTML5
 
+debug: true
 
 
 logging:

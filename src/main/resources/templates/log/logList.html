@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>日志列表</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" th:src="@{/js/layer.js}" src="/js/layer.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}" src="../../static/js/bootstrap.js"></script>
+
+</head>
+
+<body>
+
+
+<script>
+
+</script>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div th:insert="../templates/common/NavBar::navbar"></div>
+
+
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>操作名称</th>
+                        <th>操作类型</th>
+                        <th>方法名</th>
+                        <th>参数</th>
+                        <th>访问IP</th>
+                        <th>URL</th>
+                        <th>用户ID</th>
+                        <th>用户名</th>
+                        <th>耗时</th>
+                        <th>返回结果</th>
+                        <th>访问时间</th>
+                        <th>是否成功</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each=" log : ${logList}">
+                        <th th:text="${log.id}"></th>
+                        <th th:text="${log.actionName}">操作名称</th>
+                        <th th:text="${log.actionType}">操作类型</th>
+                        <th th:text="${log.methodName}">方法名</th>
+                        <th th:text="${log.args}">参数</th>
+                        <th th:text="${log.ip}">访问IP</th>
+                        <th th:text="${log.url}">URL</th>
+                        <th th:text="${log.userId}">用户ID</th>
+                        <th th:text="${log.userName}">用户名</th>
+                        <th th:text="${log.timeUse}">耗时</th>
+                        <th th:text="${log.returnResult}">返回结果</th>
+                        <th th:text="${log.createDate}">访问时间</th>
+                        <th th:text="${log.ifSuccess}">是否成功</th>
+                        <td>
+                            <a type="button" class="btn btn-danger"
+                               th:href="@{/log/deleteLog(id=${log.id},page=${page},limit=${limit})}">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div>
+                翻页部分：
+                <a type="button" class="btn btn-info"
+                   th:href="@{/log/listLogPage.html(page=${page - 1},limit=${limit})}"
+                   th:if="${page > 1}">上一页</a>
+                第<span style="display: inline-block" th:text="${page}"></span>页
+                <a type="button" class="btn btn-info"
+                   th:href="@{/log/listLogPage.html(page=${page + 1},limit=${limit})}"
+                   th:if="${page < pageNum}">下一页</a>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
