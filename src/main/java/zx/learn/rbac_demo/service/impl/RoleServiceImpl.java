@@ -43,10 +43,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void deleteRole(Integer roleId) {
+    public void deleteRole(Integer roleId) throws Exception {
 
         int userUseCount = mapper.userUseCount(roleId);
         if (userUseCount > 0) {
+            throw new Exception("此角色还有用户在使用，无法删除");
         } else {
             //注意这里删除的时候 要将该角色拥有的权限一起删除
             mapper.deleteRoleResources(roleId);

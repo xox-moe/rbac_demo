@@ -53,8 +53,13 @@ public class RoleController {
 
     @SysLogs(name = "删除角色", type = "删除&跳转")
     @RequestMapping("deleteRole")
-    public String deleteRole(Integer id) {
-        roleService.deleteRole(id);
+    public String deleteRole(Integer id,Model model) {
+        try {
+            roleService.deleteRole(id);
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "/common/error";
+        }
         return "redirect:/role/roleList.html";
     }
 

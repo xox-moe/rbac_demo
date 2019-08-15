@@ -12,6 +12,6 @@ import zx.learn.rbac_demo.entity.SysLog;
 @Mapper
 public interface SysLogMapper extends MyBatisBaseDao<SysLog, Integer> {
 
-    Page<SysLog> listSysLog(PageRowBounds pageRowBounds);
+    Page<SysLog> listSysLog(PageRowBounds pageRowBounds,String str);
 
 }

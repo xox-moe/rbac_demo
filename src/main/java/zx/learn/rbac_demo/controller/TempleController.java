@@ -21,6 +21,12 @@ public class TempleController {
         return "common/index";
     }
 
+    @SysLogs(name = "错误页面", type = "跳转")
+    @RequestMapping("common/error.html")
+    public String error() {
+        return "common/error";
+    }
+
     @SysLogs(name = "留言列表", type = "跳转")
     @RequestMapping("message/messageList.html")
     public String messageList() {

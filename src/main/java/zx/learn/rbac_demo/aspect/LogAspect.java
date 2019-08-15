@@ -5,7 +5,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import zx.learn.rbac_demo.annotation.SysLogs;
@@ -16,8 +18,12 @@ import zx.learn.rbac_demo.service.SysLogService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created with IntelliJ IDEA.
@@ -67,6 +73,7 @@ public class LogAspect {
     public Object aroundExecuteAn(ProceedingJoinPoint pjp) {
         SysLog sysLog = new SysLog();
 
+        //通过反射获取注解上的 操作名称 和 类型
         Signature signature = pjp.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
@@ -79,7 +86,8 @@ public class LogAspect {
             sysLog.setActionName(sysLogs.name());
             sysLog.setActionType(sysLogs.type());
         }
-        log.info("环绕前置");
+
+//        通过request获取session 得到当前请求用户的ID
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         sysLog.setIp(getClientIp(attr.getRequest()));
         sysLog.setUrl(attr.getRequest().getRequestURL().toString());
@@ -87,28 +95,42 @@ public class LogAspect {
         if (session != null) {
             User user = (User) session.getAttribute("user");
             if (user != null) {
-                log.debug("Session 中的user" + user.toString());
-                log.debug("用户ID：" + user.getUserId());
-                log.debug("用户名：" + user.getUserName());
+//                log.debug("Session 中的user" + user.toString());
+//                log.debug("用户ID：" + user.getUserId());
+//                log.debug("用户名：" + user.getUserName());
                 sysLog.setUserId(user.getUserId());
                 sysLog.setUserName(user.getUserName());
+            } else {
+                sysLog.setUserId(-1);
+                sysLog.setUserName("无用户");
             }
         } else {
             sysLog.setUserId(-1);
             sysLog.setUserName("无用户");
         }
+
         Object[] args = pjp.getArgs();
-        if (args.length > 0) {
-            sysLog.setArgs(Arrays.toString(args).length() > 200 ? "数据过长，不记录" : Arrays.toString(args));
-        }
-        for (Object arg : args) {
-            try {
-                log.debug("参数：" + (arg == null ? "" : arg.toString()));
-            } catch (Exception e) {
-                e.printStackTrace();
+
+//        通过反射，JoinPoint 的接口，获取参数名称以及参数值，同时过滤 Model 和 Session 和 password 等内容
+        Parameter[] parameters = method.getParameters();
+        StringBuilder argsStr = new StringBuilder();
+        for (int i = 0; i < parameters.length; i++) {
+            if ((args[i] instanceof Model) || (args[i] instanceof HttpSession) || (args[i] instanceof HttpServletRequest))
+                continue;
+            if (!(parameters[i].getName().contains("assword"))) {
+                argsStr.append(parameters[i].getName()).append(":").append(args[i] == null ? "null" : args[i].toString()).append(" , ");
+            } else {
+                argsStr.append(parameters[i].getName()).append(":").append("<Mask>").append("  ");
             }
         }
+
+        log.info("args: " + argsStr.toString());
+        String arsString = argsStr.toString();
+        arsString = arsString.length() > 3 ? arsString.substring(0, arsString.length() - 2) : arsString;
+        sysLog.setArgs(arsString);
         log.info(pjp.toLongString());
+
+//        执行连接点的函数，得到耗时 以及返回值 是否成功
         try {
             long startTime = System.currentTimeMillis();
             Object ret = pjp.proceed();

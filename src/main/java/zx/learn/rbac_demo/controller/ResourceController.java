@@ -57,6 +57,7 @@ public class ResourceController {
     @RequestMapping("resourceList.html")
     public String groupList(Model model) {
         List<Resource> resourceList = resourceService.listAllResource();
+        resourceList = resourceList.stream().sorted(Comparator.comparing(Resource::getUrl)).collect(Collectors.toList());
         model.addAttribute("resourceList", resourceList);
         return "resource/resourceList";
     }

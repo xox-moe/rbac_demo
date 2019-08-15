@@ -17,10 +17,8 @@ import zx.learn.rbac_demo.util.CacheSingleton;
 
 
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -90,7 +88,7 @@ public class UserController {
             return ReturnBean.getFailed("旧密码错误");
         } else {
             userService.updateUserPassword(user.getUserId(), newPassword);
-            session.invalidate();
+//            session.invalidate();
             return ReturnBean.getSuccess("修改成功");
         }
     }
@@ -101,7 +99,8 @@ public class UserController {
     public String listMyResource(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         Map map = cache.getResourceByUserId(user.getUserId());
-        Set<Resource> resourceList = new HashSet<>((List<Resource>) map.get("resourceList"));
+        Set<Resource> resourceSet = new HashSet<>((List<Resource>) map.get("resourceList"));
+        List<Resource> resourceList = resourceSet.stream().sorted(Comparator.comparing(Resource::getUrl)).collect(Collectors.toList());
         model.addAttribute("resourceList", resourceList);
         return "user/listMyResource";
     }

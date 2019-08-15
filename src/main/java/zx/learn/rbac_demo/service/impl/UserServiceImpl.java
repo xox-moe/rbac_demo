@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserInfoByUserName(String userName) {
         User user = mapper.getUserInfoByUserName(userName);
-        user.setUserPassword("***");
+        user.setUserPassword("<Mask>");
         return user;
     }
 

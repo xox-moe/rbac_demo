@@ -1,5 +1,6 @@
 package zx.learn.rbac_demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Data
 public class SysLog {
 
+    Integer id;
     String actionName;
     String actionType;
     String methodName;
@@ -26,6 +28,8 @@ public class SysLog {
     String userName;
     long timeUse;
     String returnResult;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime createDate;
 
     boolean ifSuccess = true;

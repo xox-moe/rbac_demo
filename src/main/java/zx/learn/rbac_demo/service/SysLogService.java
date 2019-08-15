@@ -9,6 +9,6 @@ public interface SysLogService {
 
     public void deleteLog(Integer logId);
 
-    public Page<SysLog> listSysLog(Integer page, Integer limit);
+    public Page<SysLog> listSysLog(Integer page, Integer limit, String str);
 
 }

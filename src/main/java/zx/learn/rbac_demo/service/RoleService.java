@@ -43,7 +43,7 @@ public interface RoleService {
      *
      * @param roleId 需要删除的角色的Id
      */
-    public void deleteRole(Integer roleId);
+    public void deleteRole(Integer roleId) throws Exception;
 
     /**
      * 更新角色信息

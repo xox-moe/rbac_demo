@@ -34,8 +34,16 @@
 
 
             <div>
-                <table class="table table-bordered">
-                    <thead>
+                <form th:action="@{/log/listLogPage.html}"  action="/log/deleteLog" method="get">
+                    <input name="str" type="text" placeholder="模糊搜索" >
+                    <input type="submit" class="btn btn-info" name="搜索">
+                </form>
+            </div>
+
+            <div>
+<!--                <table class="table table-bordered">-->
+                <table class="table table-striped table-bordered" align="center" style="margin-top:25px">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>操作名称</th>
@@ -46,7 +54,7 @@
                         <th>URL</th>
                         <th>用户ID</th>
                         <th>用户名</th>
-                        <th>耗时</th>
+                        <th>耗时(毫秒)</th>
                         <th>返回结果</th>
                         <th>访问时间</th>
                         <th>是否成功</th>
@@ -67,7 +75,8 @@
                         <th th:text="${log.timeUse}">耗时</th>
                         <th th:text="${log.returnResult}">返回结果</th>
                         <th th:text="${log.createDate}">访问时间</th>
-                        <th th:text="${log.ifSuccess}">是否成功</th>
+                        <th th:if="${log.ifSuccess}">成功</th>
+                        <th th:if="${!log.ifSuccess}">失败</th>
                         <td>
                             <a type="button" class="btn btn-danger"
                                th:href="@{/log/deleteLog(id=${log.id},page=${page},limit=${limit})}">删除</a>
@@ -81,11 +90,12 @@
             <div>
                 翻页部分：
                 <a type="button" class="btn btn-info"
-                   th:href="@{/log/listLogPage.html(page=${page - 1},limit=${limit})}"
+                   th:href="@{/log/listLogPage.html(page=${page - 1},limit=${limit},str=${str})}"
                    th:if="${page > 1}">上一页</a>
                 第<span style="display: inline-block" th:text="${page}"></span>页
+                /共<span style="display: inline-block" th:text="${pageNum}"></span>页
                 <a type="button" class="btn btn-info"
-                   th:href="@{/log/listLogPage.html(page=${page + 1},limit=${limit})}"
+                   th:href="@{/log/listLogPage.html(page=${page + 1},limit=${limit},str=${str})}"
                    th:if="${page < pageNum}">下一页</a>
 
             </div>

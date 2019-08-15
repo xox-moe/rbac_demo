@@ -44,9 +44,14 @@ public class LoginController {
             }
         }
 
+        if (userName == null) {
+            mv.setViewName("user/login");
+            return mv;
+        }
+
         String mdsPwd = DigestUtils.md5DigestAsHex((password + "zx").getBytes());
 
-        log.info("开始查询用户名为 " + userName + "和密码为" + password + " 的用户 的数量");
+        log.info("开始查询用户名为 " + userName + "和密码为 <Mask> 的用户 的数量");
         Integer count = userService.countUserByUserNameAndPassword(userName, password);
 
         log.info("根据用户名和密码 找到了" + count + "个匹配用户");
@@ -60,7 +65,7 @@ public class LoginController {
             mv.setViewName("common/index");
             return mv;
         } else {
-            log.info("开始查询用户名为 " + userName + "和密码为" + mdsPwd + " 的用户  结果为空");
+            log.info("开始查询用户名为 " + userName + "和密码为 <Mask> 的用户  结果为空");
             mv.addObject("error", "用户名或者密码错误");
             mv.setViewName("user/login");
             return mv;
