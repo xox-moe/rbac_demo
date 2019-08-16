@@ -12,18 +12,38 @@ spring:
     prefix: classpath:/templates/
     check-template: true
     mode: HTML5
+  servlet:
+    multipart:
+#      是否启用
+      enabled: true
+#      将文件写入磁盘的阈值，MB 或 KB 后缀
+      file-size-threshold: 0
+#      限制单个文件大小
+      max-file-size: 5MB
+#      限制所有文件大小
+      max-request-size: 10MB
+#      是否延迟多部分文件的解析
+      resolve-lazily: false
+#      文件存放地址
+#      location: D:\Image
+
+file:
+  upload:
+    path: D://Image/
+    relative: /images/**
 
 debug: true
 
 
 logging:
   level:
-    root: info
+    root: debug
     zx:
       learn:
         rbac_demo: debug
     org:
       mybatis: debug
+  file: D://log/
 
 
 

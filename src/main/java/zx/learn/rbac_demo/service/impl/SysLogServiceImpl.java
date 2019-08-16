@@ -32,8 +32,8 @@ public class SysLogServiceImpl implements SysLogService {
     public Page<SysLog> listSysLog(Integer page, Integer limit,String str) {
         PageRowBounds pageRowBounds = new PageRowBounds((page - 1) * limit, limit);
         Page<SysLog> messagePage = mapper.listSysLog(pageRowBounds,str);
-        PageInfo info = new PageInfo<>(messagePage.getResult());
-        log.info(info.toString());
+//        PageInfo info = new PageInfo<>(messagePage.getResult());
+//        log.info(info.toString());
         return messagePage;
     }
 }

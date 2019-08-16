@@ -24,7 +24,7 @@ public class SysLogController {
 
 
     @RequestMapping("listLogPage.html")
-    @SysLogs(name = "日志列表", type = "查询")
+//    @SysLogs(name = "日志列表", type = "查询")
     public String listLog(@RequestParam(required = false, defaultValue = "1") int page,
                           @RequestParam(required = false, defaultValue = "10") int limit,
                           @RequestParam(required = false, defaultValue = "") String str,

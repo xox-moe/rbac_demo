@@ -20,10 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -49,25 +46,10 @@ public class LogAspect {
     public void logAn() {
     }
 
-
 //    @Before("") 之前
 //    @After("")  返回或者抛出异常之后 执行
 //    @AfterReturning("") 返回之后
 //    @AfterThrowing("")  抛出异常之后
-
-//    @Before("logPoint()")
-//    public void beforeExecute(JoinPoint joinPoint){
-//        log.info("执行了切点前置方法");
-//        log.info(joinPoint.toLongString());
-//
-//        return;
-//    }
-//
-//    @After("logPoint()")
-//    public void afterExecute(){
-//
-//    }
-
 
     @Around("logAn()")
     public Object aroundExecuteAn(ProceedingJoinPoint pjp) {
@@ -95,9 +77,6 @@ public class LogAspect {
         if (session != null) {
             User user = (User) session.getAttribute("user");
             if (user != null) {
-//                log.debug("Session 中的user" + user.toString());
-//                log.debug("用户ID：" + user.getUserId());
-//                log.debug("用户名：" + user.getUserName());
                 sysLog.setUserId(user.getUserId());
                 sysLog.setUserName(user.getUserName());
             } else {

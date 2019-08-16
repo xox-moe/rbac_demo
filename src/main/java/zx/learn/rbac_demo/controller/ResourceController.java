@@ -1,5 +1,8 @@
 package zx.learn.rbac_demo.controller;
 
+import javafx.application.Application;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("resource")
+@Slf4j
 public class ResourceController {
 
 
@@ -34,6 +38,9 @@ public class ResourceController {
 
     @Autowired
     RoleService roleService;
+
+    @Autowired(required = false)
+    ApplicationContext context;
 
     @SysLogs(name = "新增资源", type = "增加&跳转")
     @RequestMapping("addResource")
@@ -86,6 +93,13 @@ public class ResourceController {
     @SysLogs(name = "分配资源", type = "删除&插入&跳转")
     @RequestMapping("allocateResourceForRole")
     public String allocateResourceForRole(Model model, Integer roleId, HttpServletRequest request) {
+
+//        log.info("Context类："+request.getServletContext().getClass().toString());
+        if (context != null) {
+            context.toString();
+        }
+
+
         String[] checkList = request.getParameterValues("check");
         List<Integer> resourceIdList = new ArrayList<>();
         for (String s : checkList) {
