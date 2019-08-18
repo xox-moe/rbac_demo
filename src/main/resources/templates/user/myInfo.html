@@ -52,19 +52,40 @@
                     <tbody>
                     <tr>
                         <th>用户名</th>
-                        <td th:text="${user.userName}">用户名</td>
+                        <td th:text="${session.user.userName}">用户名</td>
                     </tr>
                     <tr>
                         <th>邮箱</th>
-                        <td th:text=" ${user.userEmail}">邮箱</td>
+                        <td th:text=" ${session.user.userEmail}">邮箱</td>
                     </tr>
                     <tr>
                         <th>电话</th>
-                        <td th:text="${user.userPhone}"> 电话</td>
+                        <td th:text="${session.user.userPhone}"> 电话</td>
+                    </tr>
+                    <tr>
+                        <th>头像</th>
+                        <td>
+                            <div style="width: 200px ">
+                                <!--                            <img style="width: 200px" th:src="@{${user.headerUrl}}">-->
+                                <img style="width: 200px" th:src="@{${session.user.headerUrl}}">
+                            </div>
+                        </td>
+
                     </tr>
                     </tbody>
                 </table>
+
+                <a class="btn-info btn" th:href="@{/head/historyHead(userId=${session.user.userId})}">历史头像</a>
+
+                <br><br><br>
+
+                <form method="post" action="/head/uploadHeader" enctype="multipart/form-data">
+                    <input type="file" name="file" placeholder="选择新头像">
+                    <button type="submit" class="btn">提交</button>
+                </form>
             </div>
+
+
 
 
         </div>

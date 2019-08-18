@@ -1,21 +1,18 @@
 package zx.learn.rbac_demo.filter;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import zx.learn.rbac_demo.entity.Group;
-import zx.learn.rbac_demo.entity.Resource;
-import zx.learn.rbac_demo.entity.User;
+import zx.learn.rbac_demo.model.Resource;
+import zx.learn.rbac_demo.model.User;
 import zx.learn.rbac_demo.util.CacheSingleton;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zx.learn.rbac_demo.dao.HeaderMapper">
+
+    <insert id="addImg"  keyProperty="id" useGeneratedKeys="true" parameterType="zx.learn.rbac_demo.model.Image">
+        insert into image (path) values (#{imgUrl})
+    </insert>
+
+    <select id="getUrlById" resultType="java.lang.String">
+        select image.path
+        from image where id = #{imgId} ;
+    </select>
+    <insert id="addUserHeader">
+
+        insert into user_header ( user_id, image_id,is_use)
+        values (#{userId},#{imgId} ,true );
+
+    </insert>
+
+    <update id="disableAllHeaderForUser">
+
+        update user_header
+        set is_use = false
+        where user_id = #{userId} ;
+    </update>
+
+
+    <update id="selectUserHeader">
+        update user_header
+        set is_use = true
+        where user_id = #{userId} and image_id = #{imgId} ;
+    </update>
+    <select id="listHeadByUserId" resultType="zx.learn.rbac_demo.model.Image">
+        select image.id,image.path as imgUrl
+        from image left join user_header uh on image.id = uh.image_id where user_id = 1;
+    </select>
+
+</mapper>

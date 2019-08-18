@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace指用户自定义的命名空间。 -->
-<mapper namespace="zx.learn.rbac_demo.mapper.RoleMapper">
+<mapper namespace="zx.learn.rbac_demo.dao.RoleMapper">
 
 
-    <select id="listResourceByRoleId" resultType="zx.learn.rbac_demo.entity.Resource">
+    <select id="listResourceByRoleId" resultType="zx.learn.rbac_demo.model.Resource">
         select r.resource_id, resource_name, parent_id, `type`, url, permission
         from role
             left join role_resource rr on role.role_id = rr.role_id

@@ -1,10 +1,10 @@
-package zx.learn.rbac_demo.mapper;
+package zx.learn.rbac_demo.dao;
 
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageRowBounds;
 import org.apache.ibatis.annotations.Mapper;
-import zx.learn.rbac_demo.entity.Message;
+import zx.learn.rbac_demo.model.Message;
 
 @Mapper
 public interface MessageMapper {

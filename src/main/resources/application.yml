@@ -29,15 +29,15 @@ spring:
 
 file:
   upload:
-    path: D://Image/
-    relative: /images/**
+    path: Z://Image/
+    relative: /image/**
 
-debug: true
+debug: false
 
 
 logging:
   level:
-    root: debug
+    root: info
     zx:
       learn:
         rbac_demo: debug

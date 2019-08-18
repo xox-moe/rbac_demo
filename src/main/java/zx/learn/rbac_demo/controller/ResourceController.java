@@ -1,6 +1,5 @@
 package zx.learn.rbac_demo.controller;
 
-import javafx.application.Application;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import zx.learn.rbac_demo.annotation.SysLogs;
-import zx.learn.rbac_demo.entity.Resource;
-import zx.learn.rbac_demo.entity.Role;
+import zx.learn.rbac_demo.model.Resource;
+import zx.learn.rbac_demo.model.Role;
 import zx.learn.rbac_demo.service.ResourceService;
 import zx.learn.rbac_demo.service.RoleService;
 

@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace指用户自定义的命名空间。 -->
-<mapper namespace="zx.learn.rbac_demo.mapper.MessageMapper">
+<mapper namespace="zx.learn.rbac_demo.dao.MessageMapper">
 
     <sql id="messageColumns">
         ${alias}.message_id,${alias}.title,${alias}.detail,${alias}.create_time,${alias}.edit_time,${alias}.user_id
     </sql>
 
-    <select id="listMessageByUserName" resultType="zx.learn.rbac_demo.entity.Message">
+    <select id="listMessageByUserName" resultType="zx.learn.rbac_demo.model.Message">
         select
         <include refid="messageColumns">
             <property name="alias" value="msg"/>
@@ -37,7 +37,7 @@
 
     </insert>
 
-    <update id="updateMessage" parameterType="zx.learn.rbac_demo.entity.Message">
+    <update id="updateMessage" parameterType="zx.learn.rbac_demo.model.Message">
         update message
         <set>
             <if test="title != null">title = #{title} ,</if>
@@ -50,7 +50,7 @@
     <delete id="deleteMessageById">
         delete from message where message_id = #{messageId}
     </delete>
-    <select id="getMessageById" resultType="zx.learn.rbac_demo.entity.Message">
+    <select id="getMessageById" resultType="zx.learn.rbac_demo.model.Message">
         select * from message where message_id =#{id}
     </select>
 </mapper>

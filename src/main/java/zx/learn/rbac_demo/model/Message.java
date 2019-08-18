@@ -1,4 +1,4 @@
-package zx.learn.rbac_demo.entity;
+package zx.learn.rbac_demo.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

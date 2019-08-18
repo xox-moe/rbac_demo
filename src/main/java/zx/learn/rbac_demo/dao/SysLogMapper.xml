@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="zx.learn.rbac_demo.mapper.SysLogMapper">
-    <resultMap id="BaseResultMap" type="zx.learn.rbac_demo.entity.SysLog">
+<mapper namespace="zx.learn.rbac_demo.dao.SysLogMapper">
+    <resultMap id="BaseResultMap" type="zx.learn.rbac_demo.model.SysLog">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="action_name" jdbcType="VARCHAR" property="actionName"/>
         <result column="action_type" jdbcType="VARCHAR" property="actionType"/>
@@ -31,7 +31,7 @@
     delete from log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="zx.learn.rbac_demo.entity.SysLog"
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="zx.learn.rbac_demo.model.SysLog"
             useGeneratedKeys="true">
     insert into log (action_name, action_type, method_name, 
       args, ip, url, user_id, 
@@ -42,7 +42,7 @@
       #{userName,jdbcType=VARCHAR}, #{timeUse,jdbcType=INTEGER}, #{returnResult,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=TIMESTAMP}, #{ifSuccess,jdbcType=BIT})
   </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="zx.learn.rbac_demo.entity.SysLog"
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="zx.learn.rbac_demo.model.SysLog"
             useGeneratedKeys="true">
         insert into log
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -123,7 +123,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="zx.learn.rbac_demo.entity.SysLog">
+    <update id="updateByPrimaryKeySelective" parameterType="zx.learn.rbac_demo.model.SysLog">
         update log
         <set>
             <if test="actionName != null">
@@ -166,7 +166,7 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="zx.learn.rbac_demo.entity.SysLog">
+    <update id="updateByPrimaryKey" parameterType="zx.learn.rbac_demo.model.SysLog">
     update log
     set action_name = #{actionName,jdbcType=VARCHAR},
       action_type = #{actionType,jdbcType=VARCHAR},

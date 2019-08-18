@@ -3,9 +3,9 @@ package zx.learn.rbac_demo.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zx.learn.rbac_demo.entity.Resource;
-import zx.learn.rbac_demo.entity.Role;
-import zx.learn.rbac_demo.mapper.RoleMapper;
+import zx.learn.rbac_demo.model.Resource;
+import zx.learn.rbac_demo.model.Role;
+import zx.learn.rbac_demo.dao.RoleMapper;
 import zx.learn.rbac_demo.service.RoleService;
 
 import java.util.List;

@@ -1,6 +1,7 @@
 package zx.learn.rbac_demo.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +9,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import zx.learn.rbac_demo.annotation.SysLogs;
-import zx.learn.rbac_demo.entity.User;
+import zx.learn.rbac_demo.model.User;
 import zx.learn.rbac_demo.service.UserService;
 import zx.learn.rbac_demo.util.CacheSingleton;
 
@@ -57,6 +58,9 @@ public class LoginController {
         log.info("根据用户名和密码 找到了" + count + "个匹配用户");
         if (count > 0) {
             User user = userService.getUserInfoByUserName(userName);
+            if (StringUtils.isEmpty(user.getHeaderUrl())) {
+                user.setHeaderUrl("/image/null");
+            }
             log.info("开始查询用户名为 " + userName + " 的用户  结果为 " + user);
             session.setAttribute("user", user);
             session.setAttribute("userId", user.getUserId());

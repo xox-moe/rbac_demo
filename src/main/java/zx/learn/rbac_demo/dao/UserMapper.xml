@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace指用户自定义的命名空间。 -->
-<mapper namespace="zx.learn.rbac_demo.mapper.UserMapper">
+<mapper namespace="zx.learn.rbac_demo.dao.UserMapper">
 
     <!--    <cache/>-->
 
 
-    <select id="listUserRoleByUserId" resultType="zx.learn.rbac_demo.entity.Role">
+    <select id="listUserRoleByUserId" resultType="zx.learn.rbac_demo.model.Role">
         select r.role_id, role_name
         from user
             left join user_role ur on user.user_id = ur.user_id
@@ -15,7 +15,7 @@
         where ur.user_id = #{userId}
     </select>
 
-    <select id="listResourceByUserId" resultType="zx.learn.rbac_demo.entity.Resource">
+    <select id="listResourceByUserId" resultType="zx.learn.rbac_demo.model.Resource">
         select re.resource_id as resourceId,
         resource_name as resourceName,
         parent_id as parentId,
@@ -46,18 +46,25 @@
         values (#{userName} ,#{userPassword},#{userEmail} ,#{userPhone}  );
     </insert>
 
-    <select id="listAllUser" resultType="zx.learn.rbac_demo.entity.User">
+    <select id="listAllUser" resultType="zx.learn.rbac_demo.model.User">
         select user.user_id, user_name, user_email, user_phone , count(*) as messageNum
         from user left join message on user.user_id = message.user_id
         group by user.user_id, user_name, user_email, user_phone
     </select>
 
-    <select id="listUserGroupByUserId" resultType="zx.learn.rbac_demo.entity.Group">
+    <select id="listUserGroupByUserId" resultType="zx.learn.rbac_demo.model.Group">
         select `group`.group_id, group_name
         from `group`
                  left join group_user gu
                     on `group`.group_id = gu.group_id
         where user_id = #{userId} ;
+    </select>
+    <select id="getUserInfoByUserName" resultType="zx.learn.rbac_demo.model.User">
+        select user.user_id, user_name, user_password, user_email, user_phone, i.path as headerUrl
+        from user
+                 left join user_header uh on user.user_id = uh.user_id
+                 left join image i on uh.image_id = i.id
+        where user_name = #{userName} and is_use = true
     </select>
 
 

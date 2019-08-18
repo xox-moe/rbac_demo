@@ -1,7 +1,7 @@
 package zx.learn.rbac_demo.service;
 
 import com.github.pagehelper.Page;
-import zx.learn.rbac_demo.entity.SysLog;
+import zx.learn.rbac_demo.model.SysLog;
 
 public interface SysLogService {
 

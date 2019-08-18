@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace指用户自定义的命名空间。 -->
-<mapper namespace="zx.learn.rbac_demo.mapper.ResourceMapper">
+<mapper namespace="zx.learn.rbac_demo.dao.ResourceMapper">
 
     <update id="updateResource">
         update resource
@@ -19,7 +19,7 @@
        insert into resource (resource_name, parent_id, `type`, url, permission)
         values (#{resourceName} ,#{parentId} ,#{type},#{url} ,#{permission} );
     </insert>
-    <select id="listResourceForRole" resultType="zx.learn.rbac_demo.entity.Resource">
+    <select id="listResourceForRole" resultType="zx.learn.rbac_demo.model.Resource">
         select resource.resource_id, resource_name, parent_id, type, url, permission
         from resource left join role_resource rr on resource.resource_id = rr.resource_id
         where role_id = #{roleId}

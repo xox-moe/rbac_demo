@@ -1,11 +1,10 @@
-package zx.learn.rbac_demo.mapper;
+package zx.learn.rbac_demo.dao;
 
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Service;
-import zx.learn.rbac_demo.entity.Group;
-import zx.learn.rbac_demo.entity.Resource;
-import zx.learn.rbac_demo.entity.Role;
-import zx.learn.rbac_demo.entity.User;
+import zx.learn.rbac_demo.model.Group;
+import zx.learn.rbac_demo.model.Resource;
+import zx.learn.rbac_demo.model.Role;
+import zx.learn.rbac_demo.model.User;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ public interface UserMapper {
 
     List<Resource> listResourceByUserId(Integer userId);
 
-    @Select(value = "select user_id, user_name, user_email, user_phone from user where user_name = #{userName};")
+//    @Select(value = "select user_id, user_name, user_email, user_phone from user where user_name = #{userName};")
     User getUserInfoByUserName(String userName);
 
     List<Group> listUserGroupByUserId(Integer userId);

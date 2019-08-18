@@ -2,8 +2,8 @@ package zx.learn.rbac_demo.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import zx.learn.rbac_demo.entity.Group;
-import zx.learn.rbac_demo.mapper.GroupMapper;
+import zx.learn.rbac_demo.model.Group;
+import zx.learn.rbac_demo.dao.GroupMapper;
 import zx.learn.rbac_demo.service.GroupService;
 
 import java.util.List;

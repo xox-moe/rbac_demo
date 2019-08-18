@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,20 +9,26 @@
     <meta name="author" content="">
     <link rel="icon" href="/favicon.ico">
 
-    <title>Spring Boot file upload example</title>
+    <title>我的信息</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.css}" ref="../static/css/bootstrap.css" rel="stylesheet">
-
     <script src="/js/jquery-3.4.1.js"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.js}" src="js/bootstrap.js"></script>
 
 </head>
 
+<style>
+    #userInfo li p {
+        display: inline;
+    }
+
+
+</style>
 
 <script>
     $(document).ready(function () {
-        $("#homeHead").addClass("active")
+        $("#myInfoHead").addClass("active");
     })
 </script>
 
@@ -34,22 +40,30 @@
         <div class="span12">
             <div th:insert="../templates/common/NavBar::navbar"></div>
 
-            <h1>Spring Boot file upload example</h1>
 
-
-            <div>
-                <form action="/file/uploadMultipartFile" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file" value="请选择文件上传">
-                    <input type="submit" value="提交">
-                </form>
+            <div th:if="${errorInfo != null}">
+                <h2 th:value="${errorInfo}" th:text="${errorInfo}"></h2>
             </div>
 
-            <br>
-            <div>
-                <img th:src="@{${fileSrc}}" alt="图片">
+            <div  class="col-lg-3">
+                <img style="height: 300px" th:src="@{${session.user.headerUrl}}">
+                <br>
+                正在使用
             </div>
 
         </div>
+
+        <div class="span12">
+            <div th:each="img: ${imgList}" class="col-lg-3" style="height: 350px">
+                <img style="width: 300px" th:name="头像"
+                     th:src="@{${img.imgUrl}}">
+                <br>
+                <a type="button" class="btn-info btn" th:href="@{/head/selectHeader(imgId=${img.id})}">使用此头像</a>
+            </div>
+
+        </div>
+
+
     </div>
 </div>
 

@@ -5,14 +5,13 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import zx.learn.rbac_demo.annotation.SysLogs;
-import zx.learn.rbac_demo.entity.SysLog;
-import zx.learn.rbac_demo.entity.User;
+import zx.learn.rbac_demo.model.SysLog;
+import zx.learn.rbac_demo.model.User;
 import zx.learn.rbac_demo.service.SysLogService;
 
 import javax.servlet.http.HttpServletRequest;

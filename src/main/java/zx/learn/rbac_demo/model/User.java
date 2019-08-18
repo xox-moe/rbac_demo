@@ -1,4 +1,4 @@
-package zx.learn.rbac_demo.entity;
+package zx.learn.rbac_demo.model;
 
 
 import lombok.AllArgsConstructor;
@@ -17,5 +17,7 @@ public class User {
     String userPhone;
 
     Integer messageNum;
+
+    String headerUrl;
 
 }

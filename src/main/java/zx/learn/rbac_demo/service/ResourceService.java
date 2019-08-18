@@ -1,6 +1,6 @@
 package zx.learn.rbac_demo.service;
 
-import zx.learn.rbac_demo.entity.Resource;
+import zx.learn.rbac_demo.model.Resource;
 
 import java.util.List;
 

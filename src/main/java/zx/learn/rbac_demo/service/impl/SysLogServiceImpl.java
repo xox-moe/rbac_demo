@@ -1,13 +1,12 @@
 package zx.learn.rbac_demo.service.impl;
 
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageRowBounds;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import zx.learn.rbac_demo.entity.SysLog;
-import zx.learn.rbac_demo.mapper.SysLogMapper;
+import zx.learn.rbac_demo.model.SysLog;
+import zx.learn.rbac_demo.dao.SysLogMapper;
 import zx.learn.rbac_demo.service.SysLogService;
 
 @Service

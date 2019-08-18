@@ -2,18 +2,14 @@ package zx.learn.rbac_demo.controller;
 
 
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import zx.learn.rbac_demo.annotation.SysLogs;
-import zx.learn.rbac_demo.entity.ReturnBean;
-import zx.learn.rbac_demo.entity.SysLog;
+import zx.learn.rbac_demo.model.SysLog;
 import zx.learn.rbac_demo.service.SysLogService;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("log")

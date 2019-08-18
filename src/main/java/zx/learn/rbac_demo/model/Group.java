@@ -1,9 +1,8 @@
-package zx.learn.rbac_demo.entity;
+package zx.learn.rbac_demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 /**
  * Created with IntelliJ IDEA.

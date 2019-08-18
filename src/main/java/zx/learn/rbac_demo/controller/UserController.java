@@ -5,13 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zx.learn.rbac_demo.annotation.SysLogs;
-import zx.learn.rbac_demo.entity.Resource;
-import zx.learn.rbac_demo.entity.ReturnBean;
-import zx.learn.rbac_demo.entity.User;
+import zx.learn.rbac_demo.model.Resource;
+import zx.learn.rbac_demo.model.ReturnBean;
+import zx.learn.rbac_demo.model.User;
 import zx.learn.rbac_demo.service.UserService;
 import zx.learn.rbac_demo.util.CacheSingleton;
 

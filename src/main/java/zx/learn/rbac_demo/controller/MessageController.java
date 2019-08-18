@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zx.learn.rbac_demo.annotation.SysLogs;
-import zx.learn.rbac_demo.entity.Message;
-import zx.learn.rbac_demo.entity.ReturnBean;
-import zx.learn.rbac_demo.entity.User;
+import zx.learn.rbac_demo.model.Message;
+import zx.learn.rbac_demo.model.ReturnBean;
+import zx.learn.rbac_demo.model.User;
 import zx.learn.rbac_demo.service.MessageService;
 
 import java.time.LocalDateTime;

@@ -1,11 +1,9 @@
 package zx.learn.rbac_demo.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.springframework.stereotype.Service;
-import zx.learn.rbac_demo.entity.Group;
-import zx.learn.rbac_demo.entity.Resource;
-import zx.learn.rbac_demo.entity.Role;
-import zx.learn.rbac_demo.entity.User;
+import zx.learn.rbac_demo.model.Group;
+import zx.learn.rbac_demo.model.Resource;
+import zx.learn.rbac_demo.model.Role;
+import zx.learn.rbac_demo.model.User;
 
 import java.util.List;
 

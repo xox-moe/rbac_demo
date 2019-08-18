@@ -1,8 +1,6 @@
-package zx.learn.rbac_demo.mapper;
+package zx.learn.rbac_demo.dao;
 
 import java.io.Serializable;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * DAO公共基类，由MybatisGenerator自动生成请勿修改

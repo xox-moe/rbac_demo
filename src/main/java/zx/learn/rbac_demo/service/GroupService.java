@@ -1,6 +1,6 @@
 package zx.learn.rbac_demo.service;
 
-import zx.learn.rbac_demo.entity.Group;
+import zx.learn.rbac_demo.model.Group;
 
 import java.util.List;
 

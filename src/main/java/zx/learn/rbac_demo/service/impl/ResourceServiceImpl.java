@@ -3,8 +3,8 @@ package zx.learn.rbac_demo.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zx.learn.rbac_demo.entity.Resource;
-import zx.learn.rbac_demo.mapper.ResourceMapper;
+import zx.learn.rbac_demo.model.Resource;
+import zx.learn.rbac_demo.dao.ResourceMapper;
 import zx.learn.rbac_demo.service.ResourceService;
 
 import java.util.List;

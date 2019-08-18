@@ -6,8 +6,8 @@ import com.github.pagehelper.PageRowBounds;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import zx.learn.rbac_demo.entity.Message;
-import zx.learn.rbac_demo.mapper.MessageMapper;
+import zx.learn.rbac_demo.model.Message;
+import zx.learn.rbac_demo.dao.MessageMapper;
 import zx.learn.rbac_demo.service.MessageService;
 
 /**

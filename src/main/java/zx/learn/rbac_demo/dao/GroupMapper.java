@@ -1,11 +1,11 @@
-package zx.learn.rbac_demo.mapper;
+package zx.learn.rbac_demo.dao;
 
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import zx.learn.rbac_demo.entity.Group;
+import zx.learn.rbac_demo.model.Group;
 
 import java.util.List;
 

@@ -2,15 +2,13 @@ package zx.learn.rbac_demo.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import zx.learn.rbac_demo.entity.Group;
-import zx.learn.rbac_demo.entity.Resource;
-import zx.learn.rbac_demo.entity.User;
+import zx.learn.rbac_demo.model.Group;
+import zx.learn.rbac_demo.model.Resource;
+import zx.learn.rbac_demo.model.User;
 import zx.learn.rbac_demo.service.UserService;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 /**
