@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import zx.learn.rbac_demo.annotation.SysLogs;
 import zx.learn.rbac_demo.model.SysLog;
 import zx.learn.rbac_demo.model.User;
@@ -93,7 +94,7 @@ public class LogAspect {
         Parameter[] parameters = method.getParameters();
         StringBuilder argsStr = new StringBuilder();
         for (int i = 0; i < parameters.length; i++) {
-            if ((args[i] instanceof Model) || (args[i] instanceof HttpSession) || (args[i] instanceof HttpServletRequest))
+            if ((args[i] instanceof Model) || (args[i] instanceof HttpSession) || (args[i] instanceof HttpServletRequest || args[i] instanceof MultipartFile))
                 continue;
             if (!(parameters[i].getName().contains("assword"))) {
                 argsStr.append(parameters[i].getName()).append(":").append(args[i] == null ? "null" : args[i].toString()).append(" , ");

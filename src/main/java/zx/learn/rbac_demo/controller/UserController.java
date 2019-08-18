@@ -43,8 +43,8 @@ public class UserController {
     @SysLogs(name = "我的信息页面", type = "跳转")
     @RequestMapping("myInfo.html")
     public String myInfo(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        model.addAttribute("user", user);
+//        User user = (User) session.getAttribute("user");
+//        model.addAttribute("user", user);
         return "user/myInfo";
     }
 
