@@ -107,7 +107,7 @@
                 </li>
 
                 <li class="pull-right">
-                    <img style="height: 50px" th:src="@{${session.user.headerUrl}}">
+                    <img style="height: 50px" th:if="${session.user != null }" th:src="@{${session.user.headerUrl}}">
                 </li>
 
 
