@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace指用户自定义的命名空间。 -->
+<mapper namespace="zx.learn.rbac_demo.dao.MoneyMapper">
+
+    <!--    <insert id="recharge"></insert>-->
+    <insert id="addRecord" parameterType="zx.learn.rbac_demo.model.Record">
+        insert into record (from_id, to_id, amount)
+        values (#{formId} ,#{toId} ,#{amount} );
+    </insert>
+    <update id="changeUserBalance">
+        update user
+        <choose>
+            <when test="ifAdd">
+                set user_balance = user_balance + #{amount}
+            </when>
+            <otherwise>
+                set user_balance = user_balance - #{amount}
+            </otherwise>
+        </choose>
+        where user_id = #{userId} ;
+    </update>
+    <select id="listUserTransferRecord" resultType="zx.learn.rbac_demo.model.Record">
+        select id, from_id, to_id, amount, time, if_show
+        from record
+        where from_id = #{userId}
+           or to_id = #{userId} ;
+    </select>
+    <select id="getAvailableBalance" resultType="int">
+        select user_balance from  user where user_id = #{fromId}
+    </select>
+</mapper>

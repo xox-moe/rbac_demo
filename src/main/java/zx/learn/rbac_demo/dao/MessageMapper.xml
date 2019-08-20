@@ -45,12 +45,12 @@
             <if test="createTime != null">create_time = #{createTime} ,</if>
             <if test="editTime != null">edit_time = #{editTime} ,</if>
         </set>
-        where message_id = #{id}
+        where message_id = #{messageId,jdbcType=INTEGER}
     </update>
     <delete id="deleteMessageById">
         delete from message where message_id = #{messageId}
     </delete>
     <select id="getMessageById" resultType="zx.learn.rbac_demo.model.Message">
-        select * from message where message_id =#{id}
+        select message_id, title, detail, create_time, edit_time, user_id from message where message_id =#{id}
     </select>
 </mapper>

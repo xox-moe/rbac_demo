@@ -1,5 +1,6 @@
 package zx.learn.rbac_demo.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,8 +41,11 @@ import java.util.stream.Collectors;
 @RequestMapping("head")
 public class HeaderController {
 
+    @Value("${file.upload.path}")
+    String rootPath;
 
-    FileUtils fileUtil = FileUtils.getInstance();
+    @Autowired
+    FileUtils fileUtil;
 
     @Autowired
     HeaderService headerService;
@@ -61,10 +65,9 @@ public class HeaderController {
 //    @ResponseBody
 //    public ReturnBean testFileUpdate(HttpServletRequest request) {
 //        boolean flag = false;
-//        MultipartHttpServletRequest mreq = null;
 //
 //        if (request instanceof MultipartHttpServletRequest) {
-//            mreq = (MultipartHttpServletRequest) request;
+//             MultipartHttpServletRequest mreq = (MultipartHttpServletRequest) request;
 //        } else {
 //            return ReturnBean.getFailed("失败");
 //        }
@@ -112,9 +115,29 @@ public class HeaderController {
         return "user/historyHead";
     }
 
+    @RequestMapping("deleteHeader")
+    @SysLogs(name = "删除头像", type = "删除")
+    public String deleteHeader(@SessionAttribute("userId") Integer userId, Integer imgId, Model model) {
+
+        List<Image> imageList = headerService.listHeadByUserId(userId);
+
+        if (imageList.parallelStream().anyMatch(image -> image.getId().equals(imgId))) {
+            headerService.deleteHeader(imgId);
+        } else {
+            model.addAttribute("error", "请删除自己的头像");
+            return "common/error";
+        }
+        imageList = headerService.listHeadByUserId(userId);
+        String oldImgUrl = ((User) session.getAttribute("user")).getHeaderUrl();
+        imageList = imageList.parallelStream().filter(img -> !oldImgUrl.equals(img.getImgUrl())).collect(Collectors.toList());
+
+        model.addAttribute("imgList", imageList);
+        return "user/historyHead";
+    }
+
     @RequestMapping("selectHeader")
     @SysLogs(name = "选择头像", type = "修改")
-    public String selectHeaderByImgId(Integer imgId, @SessionAttribute("userId") Integer userId) {
+    public String selectHeaderByImgId(Integer imgId, @SessionAttribute("userId") Integer userId,Model model) {
         List<Image> imageList = headerService.listHeadByUserId(userId);
         boolean ifCouldChange = false;
 
@@ -125,10 +148,14 @@ public class HeaderController {
         if (ifCouldChange) {
             headerService.selectThisImg(userId, imgId);
             reloadHeaderImg();
+        } else {
+            model.addAttribute("error", "请选择自己的头像");
+            return "common/error";
         }
 
         return "user/myInfo";
     }
+
 //
 //    @RequestMapping("deleteImgById")
 //    public ReturnBean deleteImgById(){

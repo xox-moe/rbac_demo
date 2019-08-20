@@ -45,4 +45,11 @@ public class HeaderServiceImpl implements HeaderService {
         return mapper.listHeadByUserId(userId);
     }
 
+    @Override
+    public void deleteHeader(Integer imgId) {
+        mapper.deleteUserHeader(imgId);
+        mapper.deleteHeader(imgId);
+
+    }
+
 }

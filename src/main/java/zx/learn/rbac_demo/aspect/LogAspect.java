@@ -21,6 +21,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.time.LocalDateTime;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -97,7 +99,8 @@ public class LogAspect {
             if ((args[i] instanceof Model) || (args[i] instanceof HttpSession) || (args[i] instanceof HttpServletRequest || args[i] instanceof MultipartFile))
                 continue;
             if (!(parameters[i].getName().contains("assword"))) {
-                argsStr.append(parameters[i].getName()).append(":").append(args[i] == null ? "null" : args[i].toString()).append(" , ");
+//                argsStr.append(parameters[i].getName()).append(":").append(args[i] == null ? "null" : args[i].toString()).append(" , ");
+                argsStr.append(parameters[i].getName()).append(":").append(args[i] == null ? "null" : args[i]).append(" , ");
             } else {
                 argsStr.append(parameters[i].getName()).append(":").append("<Mask>").append("  ");
             }
@@ -106,20 +109,23 @@ public class LogAspect {
         log.info("args: " + argsStr.toString());
         String arsString = argsStr.toString();
         arsString = arsString.length() > 3 ? arsString.substring(0, arsString.length() - 2) : arsString;
+        arsString = arsString.length() > 200 ? arsString.substring(0, 199) : arsString;
         sysLog.setArgs(arsString);
         log.info(pjp.toLongString());
 
 //        执行连接点的函数，得到耗时 以及返回值 是否成功
         try {
-            long startTime = System.currentTimeMillis();
+            long startTime = System.nanoTime();
             Object ret = pjp.proceed();
-            long endTime = System.currentTimeMillis();
-            log.debug("耗时(毫秒)： " + (endTime - startTime));
+            long endTime = System.nanoTime();
+            long timeUse = NANOSECONDS.toMillis(endTime - startTime);
+            log.debug("耗时(毫秒)： " + timeUse);
             log.debug("返回类型： " + ret.getClass().toString());
             log.debug("返回值： " + ret.toString());
             log.debug("环绕后置");
 
-            sysLog.setTimeUse((int) (endTime - startTime));
+
+            sysLog.setTimeUse(timeUse);
             sysLog.setReturnResult(ret.toString().length() > 200 ? "数据过长，不记录" : ret.toString());
             sysLog.setCreateDate(LocalDateTime.now());
 

@@ -37,11 +37,13 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
         allowList.add("/js/");
         allowList.add("/static/");
         allowList.add("/fonts/");
+        allowList.add("/image/");
         allowList.add("/login");
         allowList.add("/common/noPermission.html");
         allowList.add("/common/index.html");
         allowList.add("/logout");
         allowList.add("/error");
+
 
         refreshPermissionList.add("/resource/allocateResourceForRole");
         refreshPermissionList.add("/role/allocateRoleForUser");

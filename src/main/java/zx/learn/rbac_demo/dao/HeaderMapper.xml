@@ -32,7 +32,13 @@
     </update>
     <select id="listHeadByUserId" resultType="zx.learn.rbac_demo.model.Image">
         select image.id,image.path as imgUrl
-        from image left join user_header uh on image.id = uh.image_id where user_id = 1;
+        from image left join user_header uh on image.id = uh.image_id where user_id = #{userId} ;
     </select>
+    <delete id="deleteHeader">
+        delete from image where id = #{imgId}
+    </delete>
+    <delete id="deleteUserHeader">
+         delete from user_header where image_id = #{imgId}
+    </delete>
 
 </mapper>

@@ -19,32 +19,26 @@ import java.util.UUID;
 @Component
 public class FileUtils {
 
-    @Autowired
-    Environment environment ;
+    @Value("${file.upload.path}")
+    private String ROOT_PATH;
 
+//    private static FileUtils fileUtils;
 
+//    private FileUtils(String rootPath) {
+////        ROOT_PATH = "Z:\\Image\\";
+//        ROOT_PATH = rootPath;
+////        assert ROOT_PATH != null;
+//        if (!ROOT_PATH.endsWith(File.separator)) {
+//            ROOT_PATH = ROOT_PATH + File.separator;
+//        }
+//    }
 
-    private static String ROOT_PATH;
-
-    private static FileUtils fileUtils;
-
-//    @Value("${file.upload.path}")
-//    public String rootPath;
-
-    private FileUtils() {
-        ROOT_PATH = "Z:\\Image\\";
-//        assert ROOT_PATH != null;
-        if (!ROOT_PATH.endsWith(File.separator)) {
-            ROOT_PATH = ROOT_PATH + File.separator;
-        }
-    }
-
-    public static FileUtils getInstance() {
-        if (fileUtils == null) {
-            fileUtils = new FileUtils();
-        }
-        return fileUtils;
-    }
+//    public static FileUtils getInstance(String rootPath) {
+//        if (fileUtils == null) {
+//            fileUtils = new FileUtils(rootPath);
+//        }
+//        return fileUtils;
+//    }
 
         public String saveFile (MultipartFile file, String folderName){
 

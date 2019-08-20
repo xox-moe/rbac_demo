@@ -60,11 +60,11 @@
         where user_id = #{userId} ;
     </select>
     <select id="getUserInfoByUserName" resultType="zx.learn.rbac_demo.model.User">
-        select user.user_id, user_name, user_password, user_email, user_phone, i.path as headerUrl
+        select user.user_id, user_name, user_password, user_email, user_phone,user_balance,i.path as headerUrl
         from user
                  left join user_header uh on user.user_id = uh.user_id
                  left join image i on uh.image_id = i.id
-        where user_name = #{userName} and is_use = true
+        where user_name = #{userName}  order by is_use desc limit 1
     </select>
 
 

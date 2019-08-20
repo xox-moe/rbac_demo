@@ -74,7 +74,7 @@ public class MessageController {
         message.setCreateTime(null);
         message.setEditTime(LocalDateTime.now());
         messageService.updateMessage(message);
-        return "redirect:/message/messageList";
+        return "redirect:/message/messageListTest.html";
     }
 
     @RequestMapping("listMessageByUserName")

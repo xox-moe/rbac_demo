@@ -61,7 +61,7 @@
 
             <div th:if="${edit == true}">
                 <form th:action="@{/message/editMessage}" method="post">
-                    <input type="text" name="id" hidden="hidden" th:value="${message.messageId}">
+                    <input type="text" name="messageId" hidden="hidden" th:value="${message.messageId}">
                     <fieldset>
                         <legend>修改留言</legend>
                         <label>标题</label>

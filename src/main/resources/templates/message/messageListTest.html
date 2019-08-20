@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
-<!--    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css">-->
+    <!--    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css">-->
     <link rel="stylesheet" href="/js/bootstrap-table.min.css">
 
 
@@ -28,6 +28,8 @@
 <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table-locale-all.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script type="text/javascript" th:src="@{/js/layer.js}" src="/js/layer.js"></script>
+
 
 <style>
     a {
@@ -47,6 +49,8 @@
     });
 
     var messageList;
+
+    var rewardAction;
 
     function editById(id, index) {
         console.log("执行了JS 触发了 修改方法");
@@ -73,10 +77,46 @@
                 console.log(res);
                 alert(res.msg);
                 location.reload(true);
-
             }
         )
     }
+
+
+    function reward(index) {
+        console.log(index);
+        var row = messageList[index];
+        console.log(row);
+        var toId = row.userId;
+        console.log("用户ID： " + toId);
+
+        layer.open({
+            type: 1,
+            area: ['600px', '360px'],
+            shadeClose: true, //点击遮罩关闭
+            content: ' <div class="span12">\n' +
+                '                    <fieldset>\n' +
+                '                        <legend>打赏用户</legend>\n' +
+                '                        <label class="col-lg-4">打赏金额</label><input name="amount" id="amount" type="text"><br>\n' +
+                '                        <br>\n' +
+                '                        <button type="submit" id="rewardAction" class="btn">打赏</button>\n' +
+                '                    </fieldset>\n' +
+                '            </div>'
+
+
+        });
+
+        rewardAction = $("#rewardAction");
+        rewardAction.click(function () {
+            var amount = $("#amount").val();
+            $.get('/money/reward', {
+                amount: amount,
+                toId: toId
+            }).done(function (res) {
+                alert(res.msg);
+            })
+        })
+    }
+
 
     var operateFormatter = function (value, row, index) {//赋予的参数
         return [
@@ -86,6 +126,9 @@
             '</button>',
             '<button class="btn btn-danger btn-sm rightSize packageBtn" type="button"><i class="fa fa-envelope"></i>' +
             '<a  href="javascript:deleteById(' + row.messageId + ');">删除</a>' +
+            '</button>' +
+            '<button class="btn btn-info btn-sm rightSize packageBtn" type="button"><i class="fa fa-envelope"></i>' +
+            '<a  href="javascript:reward(' + index + ');">打赏</a>' +
             '</button>'
         ].join('');
     };

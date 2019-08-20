@@ -22,4 +22,8 @@ public interface HeaderMapper {
 
     List<Image> listHeadByUserId(Integer userId);
 
+    void deleteHeader(Integer imgId);
+
+
+    void deleteUserHeader(Integer imgId);
 }

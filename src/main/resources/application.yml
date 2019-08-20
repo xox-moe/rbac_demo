@@ -19,7 +19,7 @@ spring:
 #      将文件写入磁盘的阈值，MB 或 KB 后缀
       file-size-threshold: 0
 #      限制单个文件大小
-      max-file-size: 5MB
+      max-file-size: 10MB
 #      限制所有文件大小
       max-request-size: 10MB
 #      是否延迟多部分文件的解析
@@ -29,10 +29,10 @@ spring:
 
 file:
   upload:
-    path: Z://Image/
+    path: D://Image/
     relative: /image/**
 
-debug: true
+debug: false
 
 
 logging:

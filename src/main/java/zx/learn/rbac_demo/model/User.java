@@ -15,9 +15,12 @@ public class User {
     String userPassword;
     String userEmail;
     String userPhone;
+    Double userBalance;
 
     Integer messageNum;
 
     String headerUrl;
+
+
 
 }

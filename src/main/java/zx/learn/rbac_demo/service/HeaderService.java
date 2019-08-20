@@ -33,4 +33,6 @@ public interface HeaderService {
     public String getUrlById(Integer imgId);
 
     List<Image> listHeadByUserId(Integer userId);
+
+    void deleteHeader(Integer imgId);
 }

@@ -59,6 +59,7 @@
                      th:src="@{${img.imgUrl}}">
                 <br>
                 <a type="button" class="btn-info btn" th:href="@{/head/selectHeader(imgId=${img.id})}">使用此头像</a>
+                <a type="button" class="btn-danger btn" th:href="@{/head/deleteHeader(imgId=${img.id})}">删除此头像</a>
             </div>
 
         </div>

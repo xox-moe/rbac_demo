@@ -29,6 +29,36 @@
 <script>
     $(document).ready(function () {
         $("#myInfoHead").addClass("active");
+
+
+        var recharge = $("#recharge");
+
+        recharge.click(function () {
+            var amount = $("#rechargeMoneyCount").val();
+
+            if (amount <= 0 || amount > 99999) {
+                alert("请输入合理的数值");
+                return;
+            }
+
+            $.get('/money/recharge', {
+                amount: amount
+            }).done(function (res) {
+                    // console.log(res);
+                    // alert(res.msg);
+                    // location.reload(true);
+                    // if (res.status == 1) {
+                    alert(res.msg);
+                    location.reload(true);
+
+                    // } else {
+                    //     alert(res.msg)
+                    // }
+                }
+            );
+        });
+
+
     })
 </script>
 
@@ -63,6 +93,10 @@
                         <td th:text="${session.user.userPhone}"> 电话</td>
                     </tr>
                     <tr>
+                        <th>余额</th>
+                        <td th:text="${session.user.userBalance}"> 余额</td>
+                    </tr>
+                    <tr>
                         <th>头像</th>
                         <td>
                             <div style="width: 200px ">
@@ -74,17 +108,38 @@
                     </tbody>
                 </table>
 
+
+                <div>
+                    <input id="rechargeMoneyCount" type="number" placeholder="请输入充值金额">
+                    <a class="btn-info btn" id="recharge">充值</a>
+                </div>
+
+
                 <a class="btn-info btn" th:href="@{/head/historyHead(userId=${session.user.userId})}">历史头像</a>
 
                 <br><br><br>
 
+                <img id="img" src="">
                 <form method="post" action="/head/uploadHeader" enctype="multipart/form-data">
-                    <input type="file" name="file" placeholder="选择新头像">
+                    <input type="file" name="file" onchange="show(this)" placeholder="选择新头像">
                     <button type="submit" class="btn">提交</button>
                 </form>
+
+                <script>
+                    function show(file) {
+                        var reader = new FileReader();	// 实例化一个FileReader对象，用于读取文件
+                        var img = document.getElementById('img'); 	// 获取要显示图片的标签
+
+                        //读取File对象的数据
+                        reader.onload = function (evt) {
+                            img.width = "200";
+                            // img.height =  "150";
+                            img.src = evt.target.result;
+                        }
+                        reader.readAsDataURL(file.files[0]);
+                    }
+                </script>
             </div>
-
-
 
 
         </div>
