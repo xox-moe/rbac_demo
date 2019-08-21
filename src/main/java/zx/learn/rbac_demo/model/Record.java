@@ -16,7 +16,9 @@ public class Record {
 
     Integer id;
     Integer formId;
+    String fromUserName;
     Integer toId;
+    String toUserName;
     Double amount;
     LocalDateTime time;
     Boolean ifShow;

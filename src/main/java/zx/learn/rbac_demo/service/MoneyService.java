@@ -1,5 +1,6 @@
 package zx.learn.rbac_demo.service;
 
+import com.github.pagehelper.Page;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import zx.learn.rbac_demo.model.Record;
 
@@ -26,6 +27,9 @@ public interface MoneyService {
      * @return 是否成功
      */
     public Boolean transfer(int fromId, int toId, double amount) throws Exception;
+
+    Page<Record> listUserTransferRecord(Integer userId, Integer page, Integer limit);
+
 
 //    public List<Record>
 

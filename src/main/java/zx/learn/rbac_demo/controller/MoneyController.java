@@ -1,17 +1,19 @@
 package zx.learn.rbac_demo.controller;
 
+import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import zx.learn.rbac_demo.model.Record;
 import zx.learn.rbac_demo.model.ReturnBean;
 import zx.learn.rbac_demo.model.User;
 import zx.learn.rbac_demo.service.MoneyService;
 
 import javax.servlet.http.HttpSession;
-import java.lang.annotation.Retention;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,10 +50,8 @@ public class MoneyController {
     @RequestMapping("reward")
     @ResponseBody
     public ReturnBean reward(@SessionAttribute("userId") Integer fromId, Integer toId, double amount) {
-        User user = (User) session.getAttribute("user");
         try {
             moneyService.transfer(fromId, toId, amount);
-            user.setUserBalance(user.getUserBalance() - amount);
         } catch (Exception e) {
             e.printStackTrace();
             return ReturnBean.getFailed("打赏失败，原因：" + e.getMessage());
@@ -61,7 +61,28 @@ public class MoneyController {
 
 
     //    public ReturnBean
-//    public ReturnBean listUser() {
-//        moneyService.
-//    }
+    @RequestMapping("listUserTransferRecord")
+    @ResponseBody
+    public ReturnBean listUserTransferRecord(@SessionAttribute("userId") Integer userId,
+                                             @RequestParam(required = false, defaultValue = "1") Integer page,
+                                             @RequestParam(required = false, defaultValue = "5") Integer limit) {
+
+        Page<Record> recordList = moneyService.listUserTransferRecord(userId, page, limit);
+
+        return ReturnBean.getSuccess("success", recordList, recordList.getTotal());
+    }
+
+    @RequestMapping("listUserTransferRecordPage")
+    public String listUserTransferRecordPage(@SessionAttribute("userId") Integer userId,
+                                             Model model,
+                                             @RequestParam(required = false, defaultValue = "1") Integer page,
+                                             @RequestParam(required = false, defaultValue = "15") Integer limit) {
+
+        Page<Record> recordList = moneyService.listUserTransferRecord(userId, page, limit);
+        model.addAttribute("recordList", recordList);
+        model.addAttribute("pageNum", recordList.getPages());
+        model.addAttribute("page", page);
+        model.addAttribute("limit", limit);
+        return "user/userTransferRecord";
+    }
 }

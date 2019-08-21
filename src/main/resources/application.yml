@@ -32,12 +32,12 @@ file:
     path: D://Image/
     relative: /image/**
 
-debug: false
+debug: true
 
 
 logging:
   level:
-    root: debug
+    root: info
     zx:
       learn:
         rbac_demo: debug

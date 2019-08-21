@@ -1,8 +1,16 @@
 package zx.learn.rbac_demo.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageRowBounds;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 import zx.learn.rbac_demo.dao.MoneyMapper;
 import zx.learn.rbac_demo.model.Record;
 import zx.learn.rbac_demo.service.MoneyService;
@@ -38,8 +46,14 @@ public class MoneyServiceImpl implements MoneyService {
         return mapper.changeUserBalance(userId, amount, true);
     }
 
+    //   @Transactional(propagation = Propagation.REQUIRES_NEW,
+    //            isolation = Isolation.READ_COMMITTED,
+    //            readOnly = true,
+    //            timeout = 10,
+    //            rollbackFor = Exception.class,
+    //            noRollbackFor = NullPointerException.class)
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public Boolean transfer(int fromId, int toId, double amount) throws Exception {
 
         Record record = new Record();
@@ -68,4 +82,23 @@ public class MoneyServiceImpl implements MoneyService {
 
         return mapper.changeUserBalance(toId, amount, true);
     }
+
+    @Override
+    public Page<Record> listUserTransferRecord(Integer userId, Integer page, Integer limit) {
+        PageRowBounds pageRowBounds = new PageRowBounds((page - 1) * limit, limit);
+        return mapper.listUserTransferRecord(userId, pageRowBounds);
+    }
+
+
+//    TransactionTemplate transactionTemplate;
+//
+//    private void addRecord(Record record) {
+//        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+//            @Override
+//            protected void doInTransactionWithoutResult(TransactionStatus status) {
+//                mapper.addRecord(record);
+//            }
+//        });
+//    }
+
 }

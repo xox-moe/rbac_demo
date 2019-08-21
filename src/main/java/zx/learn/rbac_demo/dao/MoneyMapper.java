@@ -1,10 +1,10 @@
 package zx.learn.rbac_demo.dao;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageRowBounds;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import zx.learn.rbac_demo.model.Record;
-
-import java.util.List;
 
 @Mapper
 public interface MoneyMapper {
@@ -16,7 +16,7 @@ public interface MoneyMapper {
 
     public boolean changeUserBalance(@Param("userId") int userId, @Param("amount") double amount, @Param("ifAdd") boolean ifAdd);
 
-    public List<Record> listUserTransferRecord(int userId);
+    public Page<Record> listUserTransferRecord(@Param("userId") int userId, PageRowBounds pageRowBounds);
 
     int getAvailableBalance(@Param("fromId") int fromId);
 
