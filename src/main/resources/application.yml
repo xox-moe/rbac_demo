@@ -26,6 +26,10 @@ spring:
       resolve-lazily: false
 #      文件存放地址
 #      location: D:\Image
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
 
 file:
   upload:
@@ -43,9 +47,7 @@ logging:
         rbac_demo: debug
     org:
       mybatis: debug
-  file: D://log/
-
-
+      springframework: debug
 
 
 #        org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration

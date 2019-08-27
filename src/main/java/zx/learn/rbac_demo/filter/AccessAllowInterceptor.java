@@ -43,6 +43,7 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
         allowList.add("/common/index.html");
         allowList.add("/logout");
         allowList.add("/error");
+        allowList.add("/test/");
 
 
         refreshPermissionList.add("/resource/allocateResourceForRole");
@@ -67,9 +68,12 @@ public class AccessAllowInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            response.sendRedirect("/login");
+            return false;
+        }
         User user = (User) session.getAttribute("user");
-
         if (user == null) {
             log.debug("用户为空，重定向到登录页面");
             response.sendRedirect("/login");

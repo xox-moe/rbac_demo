@@ -81,16 +81,10 @@
             <version>1.2.12</version>
         </dependency>
 
-        <!--        spring redis 支持-->
+        <!--      Spring session redis-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>io.lettuce</artifactId>
-                    <groupId>lettuce-core</groupId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
         </dependency>
 
         <dependency>

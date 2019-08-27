@@ -3,6 +3,7 @@ package zx.learn.rbac_demo.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
  */
 
 @Data
-public class SysLog {
+public class SysLog  implements Serializable {
 
     Integer id;
     String actionName;

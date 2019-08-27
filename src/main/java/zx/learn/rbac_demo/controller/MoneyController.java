@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import zx.learn.rbac_demo.annotation.SysLogs;
 import zx.learn.rbac_demo.model.Record;
 import zx.learn.rbac_demo.model.ReturnBean;
 import zx.learn.rbac_demo.model.User;
@@ -37,6 +38,7 @@ public class MoneyController {
 
     @RequestMapping("recharge")
     @ResponseBody
+    @SysLogs(name = "充值", type ="更新")
     public ReturnBean recharge(@SessionAttribute("userId") Integer userId, double amount) {
         User user = (User) session.getAttribute("user");
         if (moneyService.recharge(userId, amount)) {
@@ -49,6 +51,7 @@ public class MoneyController {
 
     @RequestMapping("reward")
     @ResponseBody
+    @SysLogs(name = "打赏", type ="查询&更新")
     public ReturnBean reward(@SessionAttribute("userId") Integer fromId, Integer toId, double amount) {
         try {
             moneyService.transfer(fromId, toId, amount);
@@ -73,6 +76,7 @@ public class MoneyController {
     }
 
     @RequestMapping("listUserTransferRecordPage")
+    @SysLogs(name = "查看我的资金记录", type ="查询")
     public String listUserTransferRecordPage(@SessionAttribute("userId") Integer userId,
                                              Model model,
                                              @RequestParam(required = false, defaultValue = "1") Integer page,

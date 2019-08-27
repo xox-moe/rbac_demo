@@ -75,8 +75,8 @@ public class MoneyServiceImpl implements MoneyService {
         mapper.addRecord(record);
         mapper.changeUserBalance(fromId, amount, false);
 
-        Random random = new Random();
-        if (random.nextInt(2) == 0) {
+        Random random = new Random(System.currentTimeMillis());
+        if (random.nextBoolean()) {
             throw new Exception("随机的转账失败");
         }
 
@@ -84,6 +84,7 @@ public class MoneyServiceImpl implements MoneyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Record> listUserTransferRecord(Integer userId, Integer page, Integer limit) {
         PageRowBounds pageRowBounds = new PageRowBounds((page - 1) * limit, limit);
         return mapper.listUserTransferRecord(userId, pageRowBounds);

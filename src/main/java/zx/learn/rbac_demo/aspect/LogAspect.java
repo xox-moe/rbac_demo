@@ -11,6 +11,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import zx.learn.rbac_demo.annotation.SysLogs;
+import zx.learn.rbac_demo.model.ReturnBean;
 import zx.learn.rbac_demo.model.SysLog;
 import zx.learn.rbac_demo.model.User;
 import zx.learn.rbac_demo.service.SysLogService;
@@ -115,6 +116,7 @@ public class LogAspect {
 
 //        执行连接点的函数，得到耗时 以及返回值 是否成功
         try {
+            System.currentTimeMillis();
             long startTime = System.nanoTime();
             Object ret = pjp.proceed();
             long endTime = System.nanoTime();
@@ -130,7 +132,9 @@ public class LogAspect {
             sysLog.setCreateDate(LocalDateTime.now());
 
             log.debug(sysLog.toString());
-            sysLog.setIfSuccess(true);
+            if (ret instanceof ReturnBean) {
+                sysLog.setIfSuccess(((ReturnBean) ret).status == 1);
+            }
             logService.addLog(sysLog);
             return ret;
         } catch (Throwable throwable) {

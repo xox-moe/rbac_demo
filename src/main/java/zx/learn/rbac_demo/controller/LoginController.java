@@ -13,6 +13,7 @@ import zx.learn.rbac_demo.model.User;
 import zx.learn.rbac_demo.service.UserService;
 import zx.learn.rbac_demo.util.CacheSingleton;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
@@ -24,8 +25,8 @@ public class LoginController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    HttpSession session;
+//    @Autowired
+//    HttpSession session;
 
     @Autowired
     CacheSingleton cache;
@@ -33,9 +34,10 @@ public class LoginController {
 
     @RequestMapping("/login")
     @SysLogs(name = "登录动作", type = "查询")
-    public ModelAndView loginAction(String userName, String password) {
+    public ModelAndView loginAction(String userName, String password, HttpServletRequest request) {
 
         ModelAndView mv = new ModelAndView();
+        HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
         if (currentUser != null) {
             if (currentUser.getUserName().equals(userName)) {
@@ -50,7 +52,7 @@ public class LoginController {
             return mv;
         }
 
-        String mdsPwd = DigestUtils.md5DigestAsHex((password + "zx").getBytes());
+//        String mdsPwd = DigestUtils.md5DigestAsHex((password + "zx").getBytes());
 
         log.info("开始查询用户名为 " + userName + "和密码为 <Mask> 的用户 的数量");
         Integer count = userService.countUserByUserNameAndPassword(userName, password);
